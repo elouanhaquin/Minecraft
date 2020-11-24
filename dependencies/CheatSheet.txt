@@ -1,0 +1,24 @@
+
+VC ++ Directory
+
+	Include Directories
+		$(SolutionDir)dependencies\GLEW\include;
+		$(SolutionDir)dependencies\GLFW\WIN64\include;
+		$(SolutionDir)dependencies\Soil\WIN64\include;
+		$(SolutionDir)dependencies\glm;
+		$(SolutionDir)dependencies\ASSIMP\WIN64\include;
+
+	Library Directories
+		$(SolutionDir)\dependencies\GLEW\lib\Release\Win64;
+		$(SolutionDir)\dependencies\GLFW\WIN64\lib;
+		$(SolutionDir)\dependencies\Soil\WIN64\lib;
+		$(SolutionDir)dependencies\ASSIMP\WIN64\lib;
+Linker
+	Input
+		glfw3dll.lib; glew32.lib; opengl32.lib; SOIL.lib; assimp.lib;
+
+Build Events
+	Post
+		copy $(SolutionDir)dependencies\GLEW\bin\Win64\glew32.dll $(OutDir)
+		copy $(SolutionDir)dependencies\GLFW\WIN64\lib\glfw3.dll $(OutDir)
+		copy $(SolutionDir)dependencies\ASSIMP\WIN64\lib\assimp.dll $(OutDir)

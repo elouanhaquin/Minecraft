@@ -39,57 +39,29 @@ Chunk::~Chunk()
 
 void Chunk::Draw()
 {
-
 	Mesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
-	//std::cout << "I'm Rendering" << std::endl;
 }
-/*
-void Chunk::AddBlock(int xOffset, int yOffset)
-{
-	 blocksPosition[index] = (glm::ivec3((index % DIM_BASE),  (index / DIM_BASE) % DIM_HEIGHT + ind, (index / (DIM_BASE * DIM_HEIGHT)))+ (glm::ivec3)pos);
-		if (index < ARRAYSIZE /*&& m_isRunning)
-		{
-			//switch (((index & 1) == 0))
-			//{
-			//case true:
-			blocks[index] = Block(ID::Grass, true, true);
-			blocks[index].SetCollider(BoxCollider(blocksPosition[index]+(glm::uvec3)pos));
-			//break;
-
-		//case false:
-			//blocks[index] = Block(ID::Air, false, false);
-			//break;
-		//}
-			
-		
-			index++;
-			ind = simplex.fractal(7, (float)(index % DIM_BASE) + (xOffset* DIM_BASE), (float)(index / (DIM_BASE * DIM_HEIGHT) + ( yOffset* DIM_BASE))) + 1;
-			ind *= 10;
-
-			if (index % 16 == 0) 
-			{
-				ind = 0;
-			}
-
-			//AddFace(blocks[index].GetFace());
-		}
-}*/
 
 void Chunk::AddBlock( int xOffset, int yOffset)
 {
 	if (index < ARRAYSIZE) {
-		blocksPosition[index] = (glm::ivec3((index % DIM_BASE), (index / DIM_BASE) % DIM_HEIGHT + ind, (index / (DIM_BASE * DIM_HEIGHT))));
-
+	
+		//Instantiate the block position
+		blocksPosition[index] = (glm::ivec3((index % DIM_BASE), (index / DIM_BASE) % DIM_HEIGHT, (index / (DIM_BASE * DIM_HEIGHT))));
+		
+		//Getting the value of simplexNoise with the position of blocks
+		ind = simplex.fractal(7, (float)blocksPosition[index].x + pos.x, (float)blocksPosition[index].z + pos.z);
+		ind *= 10;
+		
+		//Setting up Y position for the blocks to have a nice and smooth terrain.
+		blocksPosition[index].y += ind  + 10;
+		ind = index % 16 == 0 ? 0 : ind;
+		
+		//Fill all the terrain with gras blocks
 		blocks[index] = Block(ID::Grass, true, true);
 		blocks[index].SetCollider(BoxCollider(blocksPosition[index] + (glm::uvec3)pos));
-	
-		index++;
-		
-		ind = simplex.fractal(7, (float)(index % DIM_BASE) + (yOffset * DIM_BASE), (float)(index / (DIM_BASE * DIM_HEIGHT) + (xOffset * DIM_BASE))) + 1;
-		ind *= 10;
-		ind = index % 16 == 0 ? 0 : ind; 
 
-		//AddFace(blocks[index].GetFace(), pos);
+		index++;
 	}
 }
 
@@ -108,14 +80,11 @@ void Chunk::AddFace(Face& _faceToAdd, glm::vec3 _pos)
 
 void Chunk::RenderFace()
 {
-
 	for (int i = 0; i < ARRAYSIZE; ++i)
 	{
 		AddFace(blocks[i].GetFace(), this->blocksPosition[i] + (glm::uvec3)pos);
 	}
-
 	Mesh.AddGPUData();
-
 }
 
 Block* Chunk::GetBlockAtPosition(glm::ivec3 _pos)
@@ -299,19 +268,39 @@ void ChunkNS::Chunk::CheckDirty()
 {
 	for (int i = 0; i < ARRAYSIZE; i++) {
 		
-		Block* neightborUp    = GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y + 1, blocksPosition[i].z));
-		Block* neightborDown  = GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y - 1, blocksPosition[i].z));
-		Block* neightborLeft  = GetBlockAtPosition(glm::ivec3(blocksPosition[i].x - 1,  blocksPosition[i].y,	  blocksPosition[i].z));
-		Block* neightborRight = GetBlockAtPosition(glm::ivec3(blocksPosition[i].x + 1,  blocksPosition[i].y,	  blocksPosition[i].z));
-		Block* neightborFront = GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z + 1));
-		Block* neightborBack  = GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z - 1));
+		Block* neightbors[6] = { 
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y + 1,  blocksPosition[i].z	 ) + pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y - 1,  blocksPosition[i].z	 ) + pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x + 1,  blocksPosition[i].y,	  blocksPosition[i].z	 ) + pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x - 1,  blocksPosition[i].y,	  blocksPosition[i].z	 ) + pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z + 1) + pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z - 1) + pos)};
 
-		if((neightborUp    != nullptr && neightborUp->GetID() == ID::Grass    &&
-			neightborDown  != nullptr && neightborDown->GetID() == ID::Grass  &&
-			neightborLeft  != nullptr && neightborLeft->GetID() == ID::Grass  &&
-			neightborRight != nullptr && neightborRight->GetID() == ID::Grass &&
-			neightborFront != nullptr && neightborFront->GetID() == ID::Grass &&
-			neightborBack  != nullptr && neightborBack->GetID() == ID::Grass)
+
+		for (int j = 0; j < (sizeof(neightbors) / sizeof(Block*)); j++) 
+		{
+
+			if (neightbors[j] == nullptr) {
+				blocks[i].SetCollidable(true);
+				blocks[i].SetOpaque(true);
+				blocks[i].SetFaceToRender(Face::ALL);
+				blocks[i].SetDirty(true);
+			}
+			else {
+				blocks[i].SetFaceToRender(Face::SKIP);
+			}
+			//blocks[i].GetFace() |= (Face)j;
+	
+		}
+			
+
+		/*
+		if((neightborUp    != nullptr && neightborUp->IsOpaque()    &&
+			neightborDown  != nullptr && neightborDown->IsOpaque() &&
+			neightborLeft  != nullptr && neightborLeft->IsOpaque() &&
+			neightborRight != nullptr && neightborRight->IsOpaque() &&
+			neightborFront != nullptr && neightborFront->IsOpaque() &&
+			neightborBack  != nullptr && neightborBack->IsOpaque())
 			|| blocks[i].GetID() == ID::Air)
 			{
 
@@ -327,7 +316,7 @@ void ChunkNS::Chunk::CheckDirty()
 			blocks[i].SetOpaque(true);
 			blocks[i].SetFaceToRender(Face::ALL);
 			blocks[i].SetDirty(true);
-		}
+		}*/
 		
 	}
 }

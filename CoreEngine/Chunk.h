@@ -34,6 +34,9 @@ namespace ChunkNS
 
 		void GenerateBlocks( int xOffset, int yOffset);
 
+		/// <summary>Add a Block to a Chunk</summary>
+		/// <param name="xOffset">int xOffset which is the offset of the chunk on the X axis </param>  
+		/// <param name="yOffset">int yOffset which is the offset of the chunk on the Y axis </param> 
 		void AddBlock(int xOffset, int yOffset);
 
 		Block* GetBlockAtPosition(glm::ivec3 _pos);
@@ -45,8 +48,6 @@ namespace ChunkNS
 		void Draw();
 
 		void CheckDirty();
-
-		void CheckDirtyBlock();
 
 	private:
 

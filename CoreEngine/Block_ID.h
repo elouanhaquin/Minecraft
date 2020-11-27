@@ -12,6 +12,7 @@ namespace BlockNS
 		Grass = 1,
 		Sand = 2,
 		Stone = 3,
+		BedRock = 4,
 
 		NUM_BLOCK_TYPES
 	};

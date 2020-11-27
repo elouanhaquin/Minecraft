@@ -19,9 +19,10 @@ namespace WorldNS
 		~World();
 
 		void Populate();
+		void addChunkTo(const glm::vec3& p_pos);
 		void Render();
-
 		void Draw();
+
 
 	private:
 

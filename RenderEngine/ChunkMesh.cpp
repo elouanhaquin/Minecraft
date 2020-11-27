@@ -8,6 +8,7 @@ ChunkMesh::ChunkMesh()
 {
 	indicesCount	= 0;
 	faceCount		= 0;
+	m_textures.push_back(Texture(4, "Dirt"));
 }
 
 ChunkMesh::~ChunkMesh()
@@ -30,6 +31,7 @@ void ChunkMesh::AddGPUData()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int), &m_indices[0], GL_STATIC_DRAW);
+
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
@@ -327,42 +329,44 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 void ChunkMesh::Draw(Shader& p_shader)
 {
 	// bind appropriate textures
-	//unsigned int diffuseNr = 1;
-	//unsigned int specularNr = 1;
-	//unsigned int normalNr = 1;
-	//unsigned int heightNr = 1;
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
 
-	/*for (unsigned int i = 0; i < m_textures.size(); i++)
+	for (unsigned int i = 0; i < m_textures.size(); i++)
 	{
-		//glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 
 										  // retrieve texture number (the N in diffuse_textureN)
 		std::string number;
 		const std::string name = m_textures[i].m_type;
 
-		//if (name == "texture_diffuse")
-			//number = std::to_string(diffuseNr++);
-		//else if (name == "texture_specular")
-			//number = std::to_string(specularNr++); // transfer unsigned int to stream
-		//else if (name == "texture_normal")
-			//number = std::to_string(normalNr++); // transfer unsigned int to stream
-		//else if (name == "texture_height")
-			//number = std::to_string(heightNr++); // transfer unsigned int to stream
+		if (name == "texture_diffuse")
+			number = std::to_string(diffuseNr++);
+		else if (name == "texture_specular")
+			number = std::to_string(specularNr++); // transfer unsigned int to stream
+		else if (name == "texture_normal")
+			number = std::to_string(normalNr++); // transfer unsigned int to stream
+		else if (name == "texture_height")
+			number = std::to_string(heightNr++); // transfer unsigned int to stream
 
 												 // now set the sampler to the correct texture unit
 												 //glUniform1i(glGetUniformLocation(p_shader.GetRendererID(), (name + number).c_str()), i);
 		p_shader.SetUniform1i(name + number, i);
 		// and finally bind the texture
-		//glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
-	}*/
-
+		 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
+	}
 	// draw mesh
 	glBindVertexArray(m_vao);
-	/*glBindVertexArray(m_vao);*/
+
 	//glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, m_indices[0], m_indices.size());
-	//glBindVertexArray(0);
+	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.
-	//glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
 }

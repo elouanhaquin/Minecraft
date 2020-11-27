@@ -4,8 +4,10 @@
 #include <Block_ID.h>
 #include <Block_Occlusion.h>
 #include <BoxCollider.h>
+#include <Texture.h>
 
 using namespace CoreEngineNS;
+using namespace RenderEngineNS;
 
 namespace BlockNS
 {

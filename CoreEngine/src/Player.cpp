@@ -22,8 +22,8 @@ void Player::Awake()
 	transform->SetPosition(glm::vec3(0, 0, 0));
 	m_jumpForce = glm::vec3(0, 900, 0);
 	m_jumpSpeed = m_jumpForce.y / 35;
-	isCreativeMode = false;
-	simplex = SimplexNoise(0.015f, 8.0f, 1.0f, 1.0f);
+	isCreativeMode = true;
+
 }
 float m_jumpAcceleration = 1.0f;
 float m_jumpAccelerationCount = 0.02f;

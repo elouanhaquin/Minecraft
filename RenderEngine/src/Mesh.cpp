@@ -11,9 +11,10 @@ Mesh::Mesh(const std::vector<Vertex>& p_vertices, const std::vector<unsigned int
 	Setup();
 }
 
-
+/*Not used*/
 void Mesh::Setup()
 {
+
 	// create buffers/arrays
 	glGenVertexArrays(1, &m_vao);
 	glGenBuffers(1, &m_vbo);
@@ -48,6 +49,7 @@ void Mesh::Setup()
 	glBindVertexArray(0);
 }
 
+/*NOT USED*/
 void Mesh::SetupTerrain()
 {
 	glGenVertexArrays(1, &m_vao);
@@ -83,6 +85,8 @@ void Mesh::SetupTerrain()
 	glBindVertexArray(0);
 }
 
+
+/*NOT USED */
 void Mesh::Draw(Shader& p_shader)
 {
 	// bind appropriate textures
@@ -90,6 +94,8 @@ void Mesh::Draw(Shader& p_shader)
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
+
+
 
 	for (unsigned int i = 0; i < m_textures.size(); i++)
 	{
@@ -124,6 +130,7 @@ void Mesh::Draw(Shader& p_shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
+/*NOT USED */
 void Mesh::DrawInstanced(Shader& p_shader, int size)
 {
 	unsigned int diffuseNr = 1;
@@ -131,8 +138,10 @@ void Mesh::DrawInstanced(Shader& p_shader, int size)
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
 
+
 	for (unsigned int i = 0; i < m_textures.size(); i++)
 	{
+		
 		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 
 										  // retrieve texture number (the N in diffuse_textureN)

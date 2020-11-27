@@ -45,10 +45,10 @@ void World::Populate()
 				xOffset = 0;
 			}
 			chunks[i]->GenerateBlocks(xOffset, yOffset);
-
 		}
 	});
 }
+
 
 void World::Render()
 {

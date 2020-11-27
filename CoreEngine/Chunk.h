@@ -10,8 +10,10 @@
 using namespace BlockNS;
 using namespace RenderEngineNS;
 
-#define DIM_HEIGHT	6
-#define DIM_BASE	16
+#define DIM_HEIGHT	20
+#define DIM_BASE	12
+
+#define BEDROCK		2
 
 #define ARRAYSIZE (DIM_BASE * DIM_BASE * DIM_HEIGHT)
 

@@ -12,6 +12,7 @@ Block::Block(ID _id, bool _isCollidable, bool _isOpaque) :
 {
 	if (_id == ID::Air) faceToDraw = Face::SKIP;
 
+
 	isDirty = true;
 }
 

@@ -19,6 +19,8 @@ Chunk::Chunk(glm::vec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh()),
 	m_seed = seed;
 }
 
+
+
 void Chunk::GenerateBlocks(int xOffset, int yOffset)
 {
 	
@@ -37,10 +39,10 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 		blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::uvec3)pos));
 	}*/
 
-	for (int i = 0; i < ARRAYSIZE; ++i)
+	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
 		std::array<uint8_t, 3> _pos = From1Dto3D(i);
-		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2));
+		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) + pos;
 		blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::uvec3)pos));
 	}
 	
@@ -50,16 +52,16 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 std::array<uint8_t, 3> ChunkNS::Chunk::From1Dto3D(uint16_t p_index)
 {
 	std::array<uint8_t, 3> result;
-	result[2] = p_index / (ARRAYSIZE * ARRAYSIZE);
-	p_index -= (std::get<2>(result) * (ARRAYSIZE * ARRAYSIZE));
-	result[1] = p_index / ARRAYSIZE;
-	result[0] = p_index % ARRAYSIZE;
+	result[2] = p_index / (CHUNK_SIZE * CHUNK_SIZE);
+	p_index -= (std::get<2>(result) * (CHUNK_SIZE * CHUNK_SIZE));
+	result[1] = p_index / CHUNK_SIZE;
+	result[0] = p_index % CHUNK_SIZE;
 	return result;
 }
 
 uint16_t ChunkNS::Chunk::From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z)
 {
-	return p_x + p_y * ARRAYSIZE + p_z * ARRAYSIZE * ARRAYSIZE;
+	return p_x + p_y * CHUNK_SIZE + p_z * CHUNK_SIZE * CHUNK_SIZE;
 }
 
 Chunk::~Chunk()
@@ -91,7 +93,7 @@ void Chunk::AddFace(Face& _faceToAdd, glm::vec3 _pos)
 
 void Chunk::RenderFace()
 {
-	for (int i = 0; i < ARRAYSIZE; ++i)
+	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
 		AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
 	}
@@ -101,29 +103,19 @@ void Chunk::RenderFace()
 Block* Chunk::GetBlockAtPosition(glm::ivec3 _pos)
 {
 
-	if ((_pos.x < DIM_BASE && _pos.y < DIM_HEIGHT && _pos.z < DIM_BASE) && (_pos.x >= 0 && _pos.y >= 0 && _pos.z >= 0)) {
-	
-		int posArray = (_pos.x + DIM_BASE * (_pos.y + DIM_HEIGHT * _pos.z));
-		/*if (blocksPosition[posArray] == (glm::uvec3)_pos) {
-			*///std::cout << "X : " << _pos.x << " Y: " << _pos.y << " Z: " << _pos.z << std::endl;
-		/*}*/
-
+	if ((_pos.x < CHUNK_SIZE && _pos.y < CHUNK_SIZE && _pos.z < CHUNK_SIZE) && (_pos.x >= 0 && _pos.y >= 0 && _pos.z >= 0)) {	
+		int posArray = (_pos.x + CHUNK_SIZE * (_pos.y + CHUNK_SIZE * _pos.z));
 		return &blocks[posArray];
 	}
-
 	return nullptr;
-	//return &blocks[(_pos.x *DIM_BASE) + (_pos.y  * DIM_HEIGHT) +  (_pos.z + DIM_BASE)];
 
-	
-
-	//return &blocks[((_pos.x *DIM_BASE) + (_pos.y  * DIM_HEIGHT) + (_pos.z + DIM_BASE))] != nullptr ? &blocks[(_pos.x *DIM_BASE) + (_pos.y  * DIM_HEIGHT) + (_pos.z + DIM_BASE)] : nullptr;
 }
 
 void ChunkNS::Chunk::CheckDirty() 
 {
-	//std::cout << "X : " << pos.x << " Y: " << pos.y << " Z: " << pos.z << std::endl;
 
-	for (int i = 0; i < ARRAYSIZE; i++) {
+
+	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; i++) {
 		
 		Block* neightbors[6] = { 
 				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y + 1,  blocksPosition[i].z		) - pos),
@@ -140,16 +132,40 @@ void ChunkNS::Chunk::CheckDirty()
 				
 				blocks[i].SetCollidable(true);
 				blocks[i].SetOpaque(true);
-				blocks[i].SetFaceToRender(Face::ALL);
+
+				switch (j) {
+				case 0:
+					blocks[i].SetFaceToRender(Face::ALL);
+
+				case 1:
+					blocks[i].GetFace() |= Face::TOP;
+					blocks[i].GetFace() |= Face::BOTTOM;
+					break;
+				case 2:
+					blocks[i].GetFace() |= Face::LEFT;
+					blocks[i].GetFace() |= Face::RIGHT;
+				case 3:
+					
+					blocks[i].GetFace() |= Face::LEFT;
+					blocks[i].GetFace() |= Face::RIGHT;
+				case 4:
+					blocks[i].GetFace() |= Face::BACK;
+					blocks[i].GetFace() |= Face::FRONT;
+				case 5:
+					blocks[i].GetFace() |= Face::FRONT;
+					blocks[i].GetFace() |= Face::BACK;
+
+				}
 				blocks[i].SetDirty(true);
-				//i++;
 				break;
 			}
 			else {
 				blocks[i].SetOpaque(false);
 				blocks[i].SetFaceToRender(Face::NOTHING);
 			}
-			//blocks[i].GetFace() |= (Face)j;
+
+			
+		
 	
 		}
 			

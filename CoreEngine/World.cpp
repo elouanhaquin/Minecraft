@@ -13,9 +13,9 @@ World::World(/*const glm::vec3& _playerpos,*/ int width, int height) : worldHeig
 	for (int i = 0; i < worldDimension; ++i)
 	{
 		chunks.emplace_back(
-			new Chunk(	glm::ivec3(	((i % worldWidth) * DIM_BASE),
-								(((i / worldWidth) % worldHeight)) * DIM_HEIGHT,
-								((i / (worldWidth * worldHeight)) * DIM_BASE)),
+			new Chunk(	glm::ivec3(	((i % worldWidth) * CHUNK_SIZE),
+								(((i / worldWidth) % worldHeight)) * CHUNK_SIZE,
+								((i / (worldWidth * worldHeight)) * CHUNK_SIZE)),
 			0));
 	}
 }

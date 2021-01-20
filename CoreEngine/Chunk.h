@@ -11,7 +11,7 @@ using namespace BlockNS;
 using namespace RenderEngineNS;
 
 #define DIM_HEIGHT	20
-#define DIM_BASE	12
+#define DIM_BASE	10
 
 #define BEDROCK		2
 
@@ -36,10 +36,8 @@ namespace ChunkNS
 
 		void GenerateBlocks( int xOffset, int yOffset);
 
-		/// <summary>Add a Block to a Chunk</summary>
-		/// <param name="xOffset">int xOffset which is the offset of the chunk on the X axis </param>  
-		/// <param name="yOffset">int yOffset which is the offset of the chunk on the Y axis </param> 
-		void AddBlock(int xOffset, int yOffset);
+		std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
+		uint16_t  From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
 
 		Block* GetBlockAtPosition(glm::ivec3 _pos);
 

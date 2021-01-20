@@ -39,6 +39,7 @@ void World::Populate()
 		for (int i = 0; i < chunks.size(); ++i, ++xOffset)
 		{
 		
+			
 			if(i % (int)sqrt(chunks.size()) == 0 )
 			{
 				yOffset++;

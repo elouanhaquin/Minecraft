@@ -24,26 +24,26 @@ Chunk::Chunk(glm::vec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh()),
 void Chunk::GenerateBlocks(int xOffset, int yOffset)
 {
 	
-	/*for (int i = 0; i < ARRAYSIZE; ++i)
-	{
-		//AddBlock(xOffset, yOffset);
-		pos.y = 0;
-		ind = simplex.fractal(7, i % DIM_BASE + pos.x, (i / DIM_BASE) % DIM_BASE + pos.z);
-		ind *= 10;
-		ind = DIM_HEIGHT / 2 + ind;
-
-		glm::ivec3  posBlock = (glm::ivec3(i % DIM_BASE, (i / DIM_BASE) / DIM_BASE -ind, (i / DIM_BASE) % DIM_BASE));
-		posBlock.y *= -1;
-		blocksPosition[i] = posBlock + pos;
-		blocks[i] = Block(ID::Grass, true, true);
-		blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::uvec3)pos));
-	}*/
 
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
+
 		std::array<uint8_t, 3> _pos = From1Dto3D(i);
 		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) + pos;
-		blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::uvec3)pos));
+
+		ind = simplex.fractal(15, (i / CHUNK_SIZE) % CHUNK_SIZE + blocksPosition[i].x , (i / CHUNK_SIZE) % CHUNK_SIZE + blocksPosition[i].z);
+		
+		ind *= 5;
+		ind += 10;
+
+		if (_pos.at(1) > ind) {
+			blocks[i] = Block(ID::Air, false, false);
+		}
+		else {
+			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::uvec3)pos));
+			blocks[i] = Block(ID::Grass, false, false);
+		}
+	
 	}
 	
 	CheckDirty();
@@ -95,7 +95,8 @@ void Chunk::RenderFace()
 {
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
-		AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
+		if(blocks[i].GetID() != ID::Air)
+			AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
 	}
 	Mesh.AddGPUData();
 }
@@ -117,59 +118,61 @@ void ChunkNS::Chunk::CheckDirty()
 
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; i++) {
 		
-		Block* neightbors[6] = { 
-				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y + 1,  blocksPosition[i].z		) - pos),
-				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y - 1,  blocksPosition[i].z		) - pos),
-				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x + 1,  blocksPosition[i].y,	  blocksPosition[i].z		) - pos),
-				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x - 1,  blocksPosition[i].y,	  blocksPosition[i].z		) - pos),
-				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z + 1	) - pos),
-				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z - 1 	) - pos)};
-		
-
-		for (int j = 0; j <= (sizeof(neightbors) / sizeof(Block*)); j++) 
-		{
-			if (neightbors[j] == nullptr ) {
-				
-				blocks[i].SetCollidable(true);
-				blocks[i].SetOpaque(true);
-
-				switch (j) {
-				case 0:
-					blocks[i].SetFaceToRender(Face::ALL);
-
-				case 1:
-					blocks[i].GetFace() |= Face::TOP;
-					blocks[i].GetFace() |= Face::BOTTOM;
-					break;
-				case 2:
-					blocks[i].GetFace() |= Face::LEFT;
-					blocks[i].GetFace() |= Face::RIGHT;
-				case 3:
-					
-					blocks[i].GetFace() |= Face::LEFT;
-					blocks[i].GetFace() |= Face::RIGHT;
-				case 4:
-					blocks[i].GetFace() |= Face::BACK;
-					blocks[i].GetFace() |= Face::FRONT;
-				case 5:
-					blocks[i].GetFace() |= Face::FRONT;
-					blocks[i].GetFace() |= Face::BACK;
-
-				}
-				blocks[i].SetDirty(true);
-				break;
-			}
-			else {
-				blocks[i].SetOpaque(false);
-				blocks[i].SetFaceToRender(Face::NOTHING);
-			}
-
-			
-		
-	
+		if (blocks[i].GetID() == ID::Air) {
+			blocks[i].SetOpaque(false);
+			blocks[i].SetFaceToRender(Face::NOTHING);
 		}
-			
-	
+
+		else {
+			Block* neightbors[6] = {
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y + 1,  blocksPosition[i].z) - pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y - 1,  blocksPosition[i].z) - pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x + 1,  blocksPosition[i].y,	  blocksPosition[i].z) - pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x - 1,  blocksPosition[i].y,	  blocksPosition[i].z) - pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z + 1) - pos),
+				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z - 1) - pos) };
+
+
+			for (int j = 0; j < (sizeof(neightbors) / sizeof(Block*)); j++)
+			{
+				if (neightbors[j] == nullptr || neightbors[j]->GetID() == ID::Air) {
+
+					blocks[i].SetCollidable(true);
+					blocks[i].SetOpaque(true);
+
+
+					switch (j) {
+					case 0:
+						blocks[i].SetFaceToRender(Face::ALL);
+					case 1:
+						blocks[i].GetFace() |= Face::TOP;
+						blocks[i].GetFace() |= Face::BOTTOM;
+						break;
+					case 2:
+						blocks[i].GetFace() |= Face::LEFT;
+						blocks[i].GetFace() |= Face::RIGHT;
+					case 3:
+						blocks[i].GetFace() |= Face::LEFT;
+						blocks[i].GetFace() |= Face::RIGHT;
+					case 4:
+						blocks[i].GetFace() |= Face::BACK;
+						blocks[i].GetFace() |= Face::FRONT;
+					case 5:
+						blocks[i].GetFace() |= Face::FRONT;
+						blocks[i].GetFace() |= Face::BACK;
+
+					}
+					blocks[i].SetDirty(true);
+
+					break;
+				}
+				else {
+					blocks[i].SetOpaque(false);
+					blocks[i].SetFaceToRender(Face::NOTHING);						
+				}
+				
+			}
+		}		
 	}
 }
 

@@ -31,7 +31,7 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 		std::array<uint8_t, 3> _pos = From1Dto3D(i);
 		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) + pos;
 
-		ind = simplex.fractal(15, (i / CHUNK_SIZE) % CHUNK_SIZE + blocksPosition[i].x , (i / CHUNK_SIZE) % CHUNK_SIZE + blocksPosition[i].z);
+		ind = simplex.fractal(7, (i / CHUNK_SIZE) % CHUNK_SIZE + blocksPosition[i].x , (i / CHUNK_SIZE) % CHUNK_SIZE + blocksPosition[i].z);
 		
 		ind *= 5;
 		ind += 10;
@@ -95,8 +95,19 @@ void Chunk::RenderFace()
 {
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
-		if(blocks[i].GetID() != ID::Air)
-			AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
+		if (( From1Dto3D(i).at(0) == 0              && m_neighboursChunk.left  != nullptr)
+		|| (  From1Dto3D(i).at(2) == 0              && m_neighboursChunk.front != nullptr)
+		|| (  From1Dto3D(i).at(0) == CHUNK_SIZE - 1 && m_neighboursChunk.right != nullptr)
+		|| (  From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  != nullptr))
+		{
+			
+		}
+		else {
+			if (blocks[i].GetID() != ID::Air)
+				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
+		}
+
+		
 	}
 	Mesh.AddGPUData();
 }
@@ -174,5 +185,16 @@ void ChunkNS::Chunk::CheckDirty()
 			}
 		}		
 	}
+}
+
+void ChunkNS::Chunk::SetChunksNeighbour(Chunk * p_left, Chunk * p_right, Chunk * p_top, Chunk * p_bot, Chunk * p_front, Chunk * p_back)
+{
+	m_neighboursChunk.left = p_left;
+	m_neighboursChunk.right = p_right;
+	m_neighboursChunk.top = p_top;
+	m_neighboursChunk.bot = p_bot;
+	m_neighboursChunk.front = p_front;
+	m_neighboursChunk.back = p_back;
+
 }
 

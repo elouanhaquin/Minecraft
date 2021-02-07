@@ -101,14 +101,21 @@ void Chunk::RenderFace()
 		|| (  From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  != nullptr))
 		{
 			
+			if(((GetBlockAtPosition(glm::ivec3(blocksPosition[i].x, blocksPosition[i].y + 1, blocksPosition[i].z) - pos))!= nullptr 
+			&&  (GetBlockAtPosition(glm::ivec3(blocksPosition[i].x, blocksPosition[i].y + 1, blocksPosition[i].z) - pos))->GetID() == ID::Air))
+				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);		
 		}
 		else {
 			if (blocks[i].GetID() != ID::Air)
 				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
 		}
 
-		
+	  (From1Dto3D(i).at(0) == 0				 && m_neighboursChunk.left  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
+	  (From1Dto3D(i).at(2) == 0				 && m_neighboursChunk.front == nullptr && blocks[i].GetID() != ID::Air)	? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
+	  (From1Dto3D(i).at(0) == CHUNK_SIZE - 1 && m_neighboursChunk.right == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
+	  (From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
 	}
+
 	Mesh.AddGPUData();
 }
 

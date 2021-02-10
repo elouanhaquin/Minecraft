@@ -16,6 +16,7 @@ namespace PhysicsEngineNS
 
 
 		AABB(glm::vec3 aPointMin, glm::vec3 aPointMax, glm::vec3 aPosition = glm::vec3(0));
+		~AABB();
 
 		glm::vec3& GetMinPoint();
 		glm::vec3& GetMaxPoint();

@@ -35,10 +35,10 @@ void BoxCollider::Awake()
 	m_maxOffset = m_max + m_parent->GetComponent<Transform>().GetPosition();
 }
 
-BoxCollider::~BoxCollider()
+/*BoxCollider::~BoxCollider()
 {
-
-}
+	delete m_box;
+}*/
 
 void BoxCollider::Update()
 {

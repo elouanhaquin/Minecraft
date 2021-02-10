@@ -13,9 +13,13 @@ Collider::Collider(Primitive* aPrimivite)
 	m_primitive = aPrimivite;
 }
 
-Collider::~Collider()
+CoreEngineNS::Collider::~Collider()
 {
+
+	delete m_primitive;
+
 }
+
 
 Primitive* Collider::GetCollider()
 {

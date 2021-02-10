@@ -25,9 +25,9 @@ bool Window::Setup(bool isFullScreen)
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	if (isFullScreen)
-		m_window = glfwCreateWindow(m_width, m_height, "2WEngine", glfwGetPrimaryMonitor(), nullptr);
+		m_window = glfwCreateWindow(m_width, m_height, "HEngine", glfwGetPrimaryMonitor(), nullptr);
 	else
-		m_window = glfwCreateWindow(m_width, m_height, "2WEngine", nullptr, nullptr);
+		m_window = glfwCreateWindow(m_width, m_height, "HEngine", nullptr, nullptr);
 
 	int screenWidth, screenHeight;
 

@@ -13,7 +13,10 @@ ChunkMesh::ChunkMesh()
 
 ChunkMesh::~ChunkMesh()
 {
-
+	m_indices.clear();
+	m_vertices.clear();
+	m_textures.clear();
+	faceCount = 0;
 }
 
 void ChunkMesh::AddGPUData()
@@ -43,6 +46,23 @@ void ChunkMesh::AddGPUData()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, m_textureCoord)));
 
 	//glBindVertexArray(0);
+}
+
+void RenderEngineNS::ChunkMesh::removeGPUData()
+{
+	m_indices.clear();
+	m_vertices.clear();
+	indicesCount = 0;
+
+
+	glDeleteVertexArrays(1, &m_vao);
+	glDeleteBuffers(1, &m_vbo);
+	glDeleteBuffers(1, &m_ebo);
+
+	glUnmapBuffer(m_vbo);
+	glUnmapBuffer(m_vao);
+	glUnmapBuffer(m_ebo);
+
 }
 
 void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)

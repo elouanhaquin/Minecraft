@@ -15,14 +15,16 @@ namespace RenderEngineNS
 	public:
 
 		ChunkMesh();
+		~ChunkMesh();
 
 		void AddFace(int _faceType, glm::vec3 pos);
 
 		void AddGPUData();
+		void removeGPUData();
 
 		void Draw(Shader& p_shader);
 
-		~ChunkMesh();
+		
 
 	private:
 

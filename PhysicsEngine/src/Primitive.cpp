@@ -7,10 +7,7 @@ Primitive::Primitive()
 {
 }
 
-Primitive::~Primitive()
-{
 
-}
 
 glm::vec3& PhysicsEngineNS::Primitive::Position()
 {

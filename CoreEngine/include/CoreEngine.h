@@ -33,6 +33,7 @@ namespace CoreEngineNS
 		World* world;
 
 		bool m_isRunning;
+		glm::ivec3 buffPlayerPos;
 
 		enum STATE { MENU, PLAY, PAUSE };
 		STATE m_currentState;

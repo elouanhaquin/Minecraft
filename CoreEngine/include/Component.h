@@ -34,6 +34,6 @@ namespace CoreEngineNS
 		virtual void Update() {}
 		virtual void Draw() {}
 
-		virtual ~Component() {}
+		virtual ~Component() = default;
 	};
 }

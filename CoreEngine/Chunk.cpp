@@ -138,7 +138,7 @@ void Chunk::RenderFace()
 				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);		
 		}
 		else {
-			if (blocks[i].GetID() != ID::Air)
+			if (blocks[i].GetID() != ID::Air && !(From1Dto3D(i).at(1) == 0))
 				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
 		}
 

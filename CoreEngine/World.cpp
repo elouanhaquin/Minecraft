@@ -90,7 +90,8 @@ void WorldNS::World::removeChunkAwayFromPlayer(const glm::vec3 & p_pos, const gl
 	z *= CHUNK_SIZE;
 
 	glm::vec3 dir = glm::normalize(p_dir);
-	
+	checkNeighboursChunk();
+
 	for (int i = 0; i < chunks.size(); i++)
 	{
 		int chunkX = chunks[i]->GetPosition().x;
@@ -102,10 +103,8 @@ void WorldNS::World::removeChunkAwayFromPlayer(const glm::vec3 & p_pos, const gl
 		
 		glm::vec3 distanceVec = glm::vec3(-(chunkX - x) + CHUNK_SIZE, 0, -(chunkZ - z) + CHUNK_SIZE);
 
-		if (distance > worldWidth / 2) {
+		if (distance+2 > worldWidth / 2) {
 
-			//Todo make infinite World
-			//std::cout << " distanceX : " << distanceVec.x << " distanceZ : " << distanceVec.z << std::endl;
 			distanceVec = glm::ivec3(-(chunkX - x) , 0, -(chunkZ - z)) ;
 			distanceVec = glm::ivec3(distanceVec.x / CHUNK_SIZE * CHUNK_SIZE, 0, distanceVec.z / CHUNK_SIZE * CHUNK_SIZE);
 			glm::ivec3 newPos = glm::ivec3(chunks[i]->GetPosition() + (glm::ivec3)((distanceVec*1.75f)) / CHUNK_SIZE * CHUNK_SIZE);
@@ -121,44 +120,32 @@ void WorldNS::World::removeChunkAwayFromPlayer(const glm::vec3 & p_pos, const gl
 				chunks[i]->shiftChunk(newPos);
 		}
 	}
-	checkNeighboursChunk();
 
+	
 			
 }
 
-//Not working trash but can still be usefull
-/*int distanceFromPlayerX = std::sqrt((chunks[i]->GetPosition().x*chunks[i]->GetPosition().x) + (x * x)) / CHUNK_SIZE;
-int distanceFromPlayerZ = std::sqrt((chunks[i]->GetPosition().z*chunks[i]->GetPosition().z) + (z * z)) / CHUNK_SIZE;
-if (distanceFromPlayerX > worldWidth / 2 && distanceFromPlayerZ > worldWidth / 2) {
-
-std::cout << " distanceX : " << distanceFromPlayerX << " distanceZ : " << distanceFromPlayerZ << std::endl;
-std::cout << " MyBlock : " << chunks[i]->GetPosition().x << ":x  z: " << chunks[i]->GetPosition().z << std::endl;
-std::cout << " Me : " << x << ":x  z: " << z << std::endl;
-//	std::array<int16_t, 3> posChunk = From1Dto3D(i);
-
-chunks[i]->shiftChunk(glm::ivec3(x, 0,z));
-//std::cout << " After :"<< chunks[i]->GetPosition().x << ":x  z: " << chunks[i]->GetPosition().z << std::endl;
-}*/
-
-/*int distanceFromPlayer = std::sqrt(std::pow(chunks[i]->GetPosition().x, 2) + std::pow(x, 2)) / CHUNK_SIZE;
-if (distanceFromPlayer > worldWidth / 2) {
-//  chunks[i]->shiftChunk(glm::ivec3(posChunk.at(0) + x, 0, posChunk.at(0) + z));
-// std::cout << p_pos.x << " :x  y: " << p_pos.y << " distance : " << distanceFromPlayer << std::endl;
-}*/
 
 
 void WorldNS::World::checkNeighboursChunk()
 {
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		std::array<int16_t, 3> posChunk = From1Dto3D(i);
 
-		Chunk* left  = posChunk.at(0) > 0	?	chunks[From3Dto1D(posChunk.at(0) - CHUNK_SIZE, posChunk.at(1), posChunk.at(2))] : nullptr;
-		Chunk* right = posChunk.at(0) < 144	?	chunks[From3Dto1D(posChunk.at(0) + CHUNK_SIZE, posChunk.at(1), posChunk.at(2))] : nullptr;
-		Chunk* bot   = posChunk.at(1) > 0	?	chunks[From3Dto1D(posChunk.at(0), posChunk.at(1) - CHUNK_SIZE, posChunk.at(2))] : nullptr;
-		Chunk* top   = posChunk.at(1) < 144 ?	chunks[From3Dto1D(posChunk.at(0), posChunk.at(1) + CHUNK_SIZE, posChunk.at(2))] : nullptr;
-		Chunk* back  = posChunk.at(2) > 0	?	chunks[From3Dto1D(posChunk.at(0), posChunk.at(1), posChunk.at(2) - CHUNK_SIZE)] : nullptr;
-		Chunk* front = posChunk.at(2) < 144 ?	chunks[From3Dto1D(posChunk.at(0), posChunk.at(1), posChunk.at(2) + CHUNK_SIZE)] : nullptr;
+		glm::vec3 leftPos =  glm::vec3(chunks[i]->GetPosition().x + CHUNK_SIZE, chunks[i]->GetPosition().y, chunks[i]->GetPosition().z);
+		glm::vec3 rightPos = glm::vec3(chunks[i]->GetPosition().x - CHUNK_SIZE, chunks[i]->GetPosition().y, chunks[i]->GetPosition().z);
+		glm::vec3 botPos =   glm::vec3(chunks[i]->GetPosition().x , chunks[i]->GetPosition().y + CHUNK_SIZE, chunks[i]->GetPosition().z);
+		glm::vec3 topPos =   glm::vec3(chunks[i]->GetPosition().x , chunks[i]->GetPosition().y - CHUNK_SIZE, chunks[i]->GetPosition().z);
+		glm::vec3 backPos =  glm::vec3(chunks[i]->GetPosition().x , chunks[i]->GetPosition().y, chunks[i]->GetPosition().z + CHUNK_SIZE);
+		glm::vec3 frontPos = glm::vec3(chunks[i]->GetPosition().x , chunks[i]->GetPosition().y, chunks[i]->GetPosition().z - CHUNK_SIZE);
+
+		Chunk* left  = getChunkAtPos(leftPos) ;
+		Chunk* right = getChunkAtPos(rightPos);
+		Chunk* bot   = getChunkAtPos(botPos);
+		Chunk* top   = getChunkAtPos(topPos);
+		Chunk* back  = getChunkAtPos(backPos);
+		Chunk* front = getChunkAtPos(frontPos);
+		
 
 		chunks[i]->SetChunksNeighbour(left, right, bot, top, back, front);
 	}
@@ -187,6 +174,19 @@ void World::Draw()
 	{
 		chunks[i]->Draw();
 	}
+}
+
+Chunk * WorldNS::World::getChunkAtPos(const glm::vec3 & p_pos)
+{
+
+	for (int i = 0; i < chunks.size(); ++i)
+	{
+		glm::ivec3 maxPos = glm::ivec3(chunks[i]->GetPosition().x + CHUNK_SIZE/2, 0, chunks[i]->GetPosition().z + CHUNK_SIZE/2);
+		if ((p_pos.x < maxPos.x && p_pos.x > chunks[i]->GetPosition().x - CHUNK_SIZE/2)
+		 && (p_pos.z < maxPos.z && p_pos.z > chunks[i]->GetPosition().z - CHUNK_SIZE/2))
+			return chunks[i];
+	}
+	return nullptr;
 }
 
 uint16_t WorldNS::World::From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z)

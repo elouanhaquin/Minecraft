@@ -82,40 +82,69 @@ void WorldNS::World::generateChunkAroundPlayer(const glm::vec3 & p_pos)
 
 }
 
-void WorldNS::World::removeChunkAwayFromPlayer(const glm::vec3 & p_pos)
+void WorldNS::World::removeChunkAwayFromPlayer(const glm::vec3 & p_pos, const glm::vec3& p_dir)
 {
-	int x = (p_pos.x / CHUNK_SIZE) - (worldWidth / 2);
-	int z = (p_pos.z / CHUNK_SIZE) - (worldWidth / 2);
+	int x = (p_pos.x / CHUNK_SIZE);
+	int z = (p_pos.z / CHUNK_SIZE);
 	x *= CHUNK_SIZE;
 	z *= CHUNK_SIZE;
 
-	for (int i = 0; i < chunks.size() ; i++)
+	glm::vec3 dir = glm::normalize(p_dir);
+	
+	for (int i = 0; i < chunks.size(); i++)
 	{
-		std::array<int16_t, 3> posChunk = From1Dto3D(i);
-			
-		bool noChunkFound = false;
+		int chunkX = chunks[i]->GetPosition().x;
+		int chunkZ = chunks[i]->GetPosition().z;
 
-	/*	for (int j = 0; j < this->GetChunks().size(); j++) {
-		//	std::cout << posChunk.at(0) + x << " : myposX vs chunkPosX : " << chunks[j]->GetPosition().x << " id :" << i << std::endl;
-			if (chunks[j]->GetPosition().x == posChunk.at(0) + x
-				&& chunks[j]->GetPosition().z == posChunk.at(2) + z) {
-				noChunkFound = true;
-			}
-		}
-			
-				
-		if (!noChunkFound) */
-		//std::cout << std::sqrt(std::pow(chunks[i]->GetPosition().x, 2) + std::pow(x, 2)) << " vs " << (worldWidth * CHUNK_SIZE) / 2 << std::endl;
+		int distance = std::sqrt((std::pow((x - chunkX), 2) + std::pow((z - chunkZ), 2))) / CHUNK_SIZE;
+		int distanceX = std::sqrt((std::pow((x - chunkX), 2)));
+		int distanceZ = std::sqrt((std::pow((z - chunkZ), 2)));
+		
+		glm::vec3 distanceVec = glm::vec3(-(chunkX - x) + CHUNK_SIZE, 0, -(chunkZ - z) + CHUNK_SIZE);
 
-		int distanceFromPlayer = std::sqrt(std::pow(chunks[i]->GetPosition().x, 2) + std::pow(x, 2));
-		if (distanceFromPlayer > (worldWidth * CHUNK_SIZE) / 2) {
-					chunks[i]->shiftChunk(glm::ivec3(posChunk.at(0) + x, 0, posChunk.at(2) + z));
-			}
+		if (distance > worldWidth / 2) {
+
+			//Todo make infinite World
+			//std::cout << " distanceX : " << distanceVec.x << " distanceZ : " << distanceVec.z << std::endl;
+			distanceVec = glm::ivec3(-(chunkX - x) , 0, -(chunkZ - z)) ;
+			distanceVec = glm::ivec3(distanceVec.x / CHUNK_SIZE * CHUNK_SIZE, 0, distanceVec.z / CHUNK_SIZE * CHUNK_SIZE);
+			glm::ivec3 newPos = glm::ivec3(chunks[i]->GetPosition() + (glm::ivec3)((distanceVec*1.75f)) / CHUNK_SIZE * CHUNK_SIZE);
+
+			bool noChunkFound = false;
+
+			for (int i = 0; i < this->GetChunks().size(); i++)
+				if (chunks[i]->GetPosition().x == newPos.x
+					&& chunks[i]->GetPosition().z == newPos.z)
+					noChunkFound = true;
+
+			if (!noChunkFound) 
+				chunks[i]->shiftChunk(newPos);
 		}
+	}
+	checkNeighboursChunk();
+
 			
 }
-	
 
+//Not working trash but can still be usefull
+/*int distanceFromPlayerX = std::sqrt((chunks[i]->GetPosition().x*chunks[i]->GetPosition().x) + (x * x)) / CHUNK_SIZE;
+int distanceFromPlayerZ = std::sqrt((chunks[i]->GetPosition().z*chunks[i]->GetPosition().z) + (z * z)) / CHUNK_SIZE;
+if (distanceFromPlayerX > worldWidth / 2 && distanceFromPlayerZ > worldWidth / 2) {
+
+std::cout << " distanceX : " << distanceFromPlayerX << " distanceZ : " << distanceFromPlayerZ << std::endl;
+std::cout << " MyBlock : " << chunks[i]->GetPosition().x << ":x  z: " << chunks[i]->GetPosition().z << std::endl;
+std::cout << " Me : " << x << ":x  z: " << z << std::endl;
+//	std::array<int16_t, 3> posChunk = From1Dto3D(i);
+
+chunks[i]->shiftChunk(glm::ivec3(x, 0,z));
+//std::cout << " After :"<< chunks[i]->GetPosition().x << ":x  z: " << chunks[i]->GetPosition().z << std::endl;
+}*/
+
+/*int distanceFromPlayer = std::sqrt(std::pow(chunks[i]->GetPosition().x, 2) + std::pow(x, 2)) / CHUNK_SIZE;
+if (distanceFromPlayer > worldWidth / 2) {
+//  chunks[i]->shiftChunk(glm::ivec3(posChunk.at(0) + x, 0, posChunk.at(0) + z));
+// std::cout << p_pos.x << " :x  y: " << p_pos.y << " distance : " << distanceFromPlayer << std::endl;
+}*/
 
 
 void WorldNS::World::checkNeighboursChunk()

@@ -21,7 +21,8 @@ namespace WorldNS
 		void Populate();
 		void addChunkTo(const glm::vec3& p_pos);
 		void generateChunkAroundPlayer(const glm::vec3& p_pos);
-		void removeChunkAwayFromPlayer(const glm::vec3& p_pos);
+		void removeChunkAwayFromPlayer(const glm::vec3& p_pos, const glm::vec3& p_dir);
+		void destroyBlockAt(const glm::vec3& p_pos, const glm::vec3& p_dir);
 		void checkNeighboursChunk();
 		void Render();
 		void Draw();

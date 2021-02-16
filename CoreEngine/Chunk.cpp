@@ -21,9 +21,6 @@ Chunk::Chunk(glm::ivec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh())
 }
 
 
-
-
-
 void Chunk::GenerateBlocks(int xOffset, int yOffset)
 {
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
@@ -52,6 +49,7 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 {
+
 	pos = p_pos;
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
@@ -63,17 +61,19 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 		ind *= 5;
 		ind += 10;
 
-		if (_pos.at(1) > ind) 
-			blocks[i] = Block(ID::Air, false, false);
+		if (_pos.at(1) > ind) {
+			if(blocks[i].GetID() != ID::Air)
+				blocks[i] = Block(ID::Air, false, false);
+		}				
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + p_pos));
 			blocks[i] = Block(ID::Grass, true, true);
 		}
 	}
-	Mesh.removeGPUData();
-	CheckDirty();
-	RenderFace();
+	updateChunk();
 }
+
+
 
 
 std::array<uint8_t, 3> ChunkNS::Chunk::From1Dto3D(uint16_t p_index)
@@ -149,6 +149,13 @@ void Chunk::RenderFace()
 	}
 
 	Mesh.AddGPUData();
+}
+
+void ChunkNS::Chunk::updateChunk()
+{
+	Mesh.removeGPUData();
+	CheckDirty();
+	RenderFace();
 }
 
 Block* Chunk::GetBlockAtPosition(glm::ivec3 _pos)

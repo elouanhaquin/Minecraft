@@ -1,6 +1,8 @@
 #pragma once
 
+
 #include "stdafx.h"
+#include <BlockGeometry.h>
 #include <Vertex.h>
 #include <Texture.h>
 #include <Shader.h>
@@ -32,7 +34,7 @@ namespace RenderEngineNS
 		unsigned int indicesCount	= 0;
 
 		std::vector<Vertex>			m_vertices;
-		std::vector<unsigned int>	m_indices;
+		std::vector<GLuint>			m_indices;
 		std::vector<Texture>		m_textures;
 
 		unsigned int				m_vao, m_vbo, m_ebo;

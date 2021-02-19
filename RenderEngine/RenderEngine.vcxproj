@@ -179,6 +179,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BlockGeometry.h" />
     <ClInclude Include="ChunkMesh.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Mesh.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlockGeometry.cpp" />
     <ClCompile Include="ChunkMesh.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="src\Camera.cpp" />

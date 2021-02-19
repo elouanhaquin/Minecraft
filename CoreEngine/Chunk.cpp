@@ -14,10 +14,9 @@ TODO:
 
 using namespace ChunkNS;
 
-Chunk::Chunk(glm::ivec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh()), simplex(SimplexNoise(0.015f,8.0f,1.0f,1.0f))
+Chunk::Chunk(glm::ivec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh()), simplex(SimplexNoise(0.020f,8.0f,1.0f,150.0f))
 {
 	m_seed = seed;
-	
 }
 
 
@@ -39,7 +38,7 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 		}
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
-			blocks[i] = Block(ID::Grass, true, true);
+			blocks[i] = Block(ID::Coal, true, true);
 		}
 	
 	}
@@ -67,7 +66,7 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 		}				
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + p_pos));
-			blocks[i] = Block(ID::Grass, true, true);
+			blocks[i] = Block(ID::Coal, true, true);
 		}
 	}
 	updateChunk();

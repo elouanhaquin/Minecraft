@@ -10,9 +10,10 @@ namespace BlockNS
 	{
 		Air = 0,
 		Grass = 1,
-		Sand = 2,
-		Stone = 3,
-		BedRock = 4,
+		Coal = 2,
+		Sand = 3,
+		Stone = 4,
+		BedRock = 5,
 
 		NUM_BLOCK_TYPES
 	};

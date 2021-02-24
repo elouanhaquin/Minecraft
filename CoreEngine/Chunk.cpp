@@ -38,7 +38,7 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 		}
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
-			blocks[i] = Block(ID::Coal, true, true);
+			blocks[i] = Block(ID::Grass, true, true);
 		}
 	
 	}
@@ -109,17 +109,17 @@ void Chunk::Draw()
 }
 
 
-void Chunk::AddFace(Face& _faceToAdd, glm::vec3 _pos)
+void Chunk::AddFace(Face& _faceToAdd, glm::vec3 _pos, ID _id)
 {
 	if ((_faceToAdd == Face::NOTHING) || (_faceToAdd == Face::SKIP))
 		return;
 
-	if ((_faceToAdd & Face::TOP		)	== Face::TOP	)	Mesh.AddFace(0, _pos);
-	if ((_faceToAdd & Face::BOTTOM	)	== Face::BOTTOM	)	Mesh.AddFace(1, _pos);
-	if ((_faceToAdd & Face::FRONT	)	== Face::FRONT	)	Mesh.AddFace(2, _pos);
-	if ((_faceToAdd & Face::BACK	)	== Face::BACK	)	Mesh.AddFace(3, _pos);
-	if ((_faceToAdd & Face::RIGHT	)	== Face::RIGHT	)	Mesh.AddFace(4, _pos);
-	if ((_faceToAdd & Face::LEFT	)	== Face::LEFT	)	Mesh.AddFace(5, _pos);
+	if ((_faceToAdd & Face::TOP		)	== Face::TOP	)	Mesh.AddFace(0, _pos, (uint16_t)_id);
+	if ((_faceToAdd & Face::BOTTOM	)	== Face::BOTTOM	)	Mesh.AddFace(1, _pos, (uint16_t)_id);
+	if ((_faceToAdd & Face::FRONT	)	== Face::FRONT	)	Mesh.AddFace(2, _pos, (uint16_t)_id);
+	if ((_faceToAdd & Face::BACK	)	== Face::BACK	)	Mesh.AddFace(3, _pos, (uint16_t)_id);
+	if ((_faceToAdd & Face::RIGHT	)	== Face::RIGHT	)	Mesh.AddFace(4, _pos, (uint16_t)_id);
+	if ((_faceToAdd & Face::LEFT	)	== Face::LEFT	)	Mesh.AddFace(5, _pos, (uint16_t)_id);
 }
 
 void Chunk::RenderFace()
@@ -134,17 +134,17 @@ void Chunk::RenderFace()
 			
 			if(((GetBlockAtPosition(glm::ivec3(blocksPosition[i].x, blocksPosition[i].y + 1, blocksPosition[i].z) - pos))!= nullptr
 			&&  (GetBlockAtPosition(glm::ivec3(blocksPosition[i].x, blocksPosition[i].y + 1, blocksPosition[i].z) - pos))->GetID() == ID::Air))
-				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);		
+				AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID());
 		}
 		else {
 			if (blocks[i].GetID() != ID::Air && !(From1Dto3D(i).at(1) == 0))
-				AddFace(blocks[i].GetFace(), this->blocksPosition[i]);
+				AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID());
 		}
 
-	  (From1Dto3D(i).at(0) == 0				 && m_neighboursChunk.left  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
-	  (From1Dto3D(i).at(2) == 0				 && m_neighboursChunk.front == nullptr && blocks[i].GetID() != ID::Air)	? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
-	  (From1Dto3D(i).at(0) == CHUNK_SIZE - 1 && m_neighboursChunk.right == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
-	  (From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i]) : (void)0;
+	  (From1Dto3D(i).at(0) == 0				 && m_neighboursChunk.left  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
+	  (From1Dto3D(i).at(2) == 0				 && m_neighboursChunk.front == nullptr && blocks[i].GetID() != ID::Air)	? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
+	  (From1Dto3D(i).at(0) == CHUNK_SIZE - 1 && m_neighboursChunk.right == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
+	  (From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
 	}
 
 	Mesh.AddGPUData();

@@ -19,7 +19,7 @@ namespace RenderEngineNS
 		ChunkMesh();
 		~ChunkMesh();
 
-		void AddFace(int _faceType, glm::vec3 pos);
+		void AddFace(int _faceType, glm::vec3 pos, uint16_t _tex);
 
 		void AddGPUData();
 		void removeGPUData();

@@ -67,7 +67,7 @@ namespace ChunkNS
 		void GenerateBlocks(int xOffset, int yOffset);
 		void RenderFace();
 		void updateChunk();
-		void AddFace(Face& _faceToDraw, glm::vec3 _pos);
+		void AddFace(Face& _faceToDraw, glm::vec3 _pos, ID _id );
 		void Draw();
 		void CheckDirty();
 		void SetChunksNeighbour( Chunk* p_left, Chunk* p_right, Chunk*  p_top, Chunk* p_bot, Chunk*  p_front, Chunk* p_back);

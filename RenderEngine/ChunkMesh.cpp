@@ -9,8 +9,8 @@ ChunkMesh::ChunkMesh()
 	indicesCount	= 0;
 	faceCount		= 0;
 	
-	m_textures.push_back(Texture(1, "Dirt"));
-	//m_textures.push_back(Texture(2, "Coal"));
+	//m_textures.push_back(Texture(1, "Dirt"));
+	m_textures.push_back(Texture(3, "Atlas"));
 
 }
 
@@ -68,7 +68,7 @@ void RenderEngineNS::ChunkMesh::removeGPUData()
 
 }
 
-void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
+void ChunkMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 {
 	//Todo refacto all of this
 	//Put this in blovk
@@ -76,6 +76,11 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 
 	++faceCount;
 	Vertex v[6];
+
+	_tex--;
+
+	float v0t = (float)((0 + _tex) * 0.5f) + 0.1f;
+	float v1t = (float)((1 + _tex) * 0.5f) - 0.1f;
 
 	switch (_faceType)
 	{
@@ -90,13 +95,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 		v[5].m_position = glm::vec3(-0.5f, 0.5f, 0.5f)	+ pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(0.33, 0);
-		v[1].m_textureCoord = glm::vec2(0, 1);
-		v[2].m_textureCoord = glm::vec2(0.33, 1);
+		v[0].m_textureCoord = glm::vec2(0.32, v0t);
+		v[1].m_textureCoord = glm::vec2(0, v1t);
+		v[2].m_textureCoord = glm::vec2(0.32, v1t);
 
-		v[3].m_textureCoord = glm::vec2(0.33, 0);
-		v[4].m_textureCoord = glm::vec2(0, 0);
-		v[5].m_textureCoord = glm::vec2(0, 1);
+		v[3].m_textureCoord = glm::vec2(0.32, v0t);
+		v[4].m_textureCoord = glm::vec2(0, v0t);
+		v[5].m_textureCoord = glm::vec2(0, v1t);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, -0.99, 0);
@@ -136,13 +141,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 		v[5].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, 0.65);
-		v[1].m_textureCoord = glm::vec2(0.65, 1);
-		v[2].m_textureCoord = glm::vec2(1, 1);
+		v[0].m_textureCoord = glm::vec2(1, v0t);
+		v[1].m_textureCoord = glm::vec2(0.65, v1t);
+		v[2].m_textureCoord = glm::vec2(1, v1t);
 
-		v[3].m_textureCoord = glm::vec2(1, 0.65);
-		v[4].m_textureCoord = glm::vec2(0.65, 0.65);
-		v[5].m_textureCoord = glm::vec2(0.65, 1);
+		v[3].m_textureCoord = glm::vec2(1, v0t);
+		v[4].m_textureCoord = glm::vec2(0.65, v0t);
+		v[5].m_textureCoord = glm::vec2(0.65, v1t);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, -0.1, 0);
@@ -181,13 +186,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 		v[5].m_position = glm::vec3(-0.5f, -0.5f, 0.5f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(0.66, 1);
-		v[1].m_textureCoord = glm::vec2(0.35, 0);
-		v[2].m_textureCoord = glm::vec2(0.66, 0);
+		v[0].m_textureCoord = glm::vec2(0.66, v1t);
+		v[1].m_textureCoord = glm::vec2(0.35, v0t);
+		v[2].m_textureCoord = glm::vec2(0.66, v0t);
 
-		v[3].m_textureCoord = glm::vec2(0.66, 1);
-		v[4].m_textureCoord = glm::vec2(0.35, 1);
-		v[5].m_textureCoord = glm::vec2(0.35, 0);
+		v[3].m_textureCoord = glm::vec2(0.66, v1t);
+		v[4].m_textureCoord = glm::vec2(0.35, v1t);
+		v[5].m_textureCoord = glm::vec2(0.35, v0t);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, 0, -0.90);
@@ -226,13 +231,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 		v[5].m_position = glm::vec3(0.5f, -0.5f, -0.5f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(0.66, 1);
-		v[1].m_textureCoord = glm::vec2(0.35, 0);
-		v[2].m_textureCoord = glm::vec2(0.66, 0);
+		v[0].m_textureCoord = glm::vec2(0.66, v1t);
+		v[1].m_textureCoord = glm::vec2(0.35, v0t);
+		v[2].m_textureCoord = glm::vec2(0.66, v0t);
 
-		v[3].m_textureCoord = glm::vec2(0.66, 1);
-		v[4].m_textureCoord = glm::vec2(0.35, 1);
-		v[5].m_textureCoord = glm::vec2(0.35, 0);
+		v[3].m_textureCoord = glm::vec2(0.66, v1t);
+		v[4].m_textureCoord = glm::vec2(0.35, v1t);
+		v[5].m_textureCoord = glm::vec2(0.35, v0t);
 
 
 		//Normals
@@ -272,13 +277,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 		v[5].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(0.66, 1);
-		v[1].m_textureCoord = glm::vec2(0.35, 0);
-		v[2].m_textureCoord = glm::vec2(0.66, 0);
+		v[0].m_textureCoord = glm::vec2(0.66, v1t);
+		v[1].m_textureCoord = glm::vec2(0.35, v0t);
+		v[2].m_textureCoord = glm::vec2(0.66, v0t);
 
-		v[3].m_textureCoord = glm::vec2(0.66, 1);
-		v[4].m_textureCoord = glm::vec2(0.35, 1);
-		v[5].m_textureCoord = glm::vec2(0.35, 0);
+		v[3].m_textureCoord = glm::vec2(0.66, v1t);
+		v[4].m_textureCoord = glm::vec2(0.35, v1t);
+		v[5].m_textureCoord = glm::vec2(0.35, v0t);
 
 
 		//Normals
@@ -318,13 +323,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos)
 		v[5].m_position = glm::vec3(-0.5f, -0.5f, -0.5f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(0.66, 1);
-		v[1].m_textureCoord = glm::vec2(0.35, 0);
-		v[2].m_textureCoord = glm::vec2(0.66, 0);
+		v[0].m_textureCoord = glm::vec2(0.66, v1t);
+		v[1].m_textureCoord = glm::vec2(0.35, v0t);
+		v[2].m_textureCoord = glm::vec2(0.66, v0t);
 
-		v[3].m_textureCoord = glm::vec2(0.66, 1);
-		v[4].m_textureCoord = glm::vec2(0.35, 1);
-		v[5].m_textureCoord = glm::vec2(0.35, 0);
+		v[3].m_textureCoord = glm::vec2(0.66, v1t);
+		v[4].m_textureCoord = glm::vec2(0.35, v1t);
+		v[5].m_textureCoord = glm::vec2(0.35, v0t);
 
 
 		//Normals

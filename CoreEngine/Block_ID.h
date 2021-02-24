@@ -11,9 +11,10 @@ namespace BlockNS
 		Air = 0,
 		Grass = 1,
 		Coal = 2,
-		Sand = 3,
-		Stone = 4,
-		BedRock = 5,
+		Stone = 3,
+		Sand = 4,
+		Iron = 5,
+		BedRock = 6,
 
 		NUM_BLOCK_TYPES
 	};

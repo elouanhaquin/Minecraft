@@ -11,7 +11,7 @@ ChunkMesh::ChunkMesh()
 	
 	//m_textures.push_back(Texture(1, "Dirt"));
 	m_textures.push_back(Texture(3, "Atlas"));
-
+	
 }
 
 ChunkMesh::~ChunkMesh()
@@ -79,8 +79,9 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 
 	_tex--;
 
-	float v0t = (float)((0 + _tex) * 0.5f) + 0.1f;
-	float v1t = (float)((1 + _tex) * 0.5f) - 0.1f;
+	//0.166f is 1(max Size) / 6 (textures number)
+	float v0t = -(float)((0 + _tex) * 0.166f) - 0.05f;
+	float v1t = -(float)((1 + _tex) * 0.166f) + 0.05f;
 
 	switch (_faceType)
 	{

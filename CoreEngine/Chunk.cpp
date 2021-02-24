@@ -22,14 +22,20 @@ Chunk::Chunk(glm::ivec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh())
 
 void Chunk::GenerateBlocks(int xOffset, int yOffset)
 {
+	fillChunk();
+	CheckDirty();
+}
+
+void ChunkNS::Chunk::fillChunk()
+{
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
 
 		std::array<uint8_t, 3> _pos = From1Dto3D(i);
 		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) + (glm::ivec3)pos;
 
-		ind = simplex.fractal(7, /*(i / CHUNK_SIZE) % CHUNK_SIZE */+ blocksPosition[i].x , /*(i / CHUNK_SIZE) % CHUNK_SIZE +*/ blocksPosition[i].z);
-		
+		ind = simplex.fractal(7, +blocksPosition[i].x, blocksPosition[i].z);
+
 		ind *= 5;
 		ind += 10;
 
@@ -38,37 +44,21 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 		}
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
-			blocks[i] = Block(ID::Grass, true, true);
+
+
+			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);
+			blocks[i] =  blocksPosition[i].y > ind - 3 ? Block(ID::Grass, true, true) : Block(ID::Stone, true, true);
+			
 		}
-	
+
 	}
-	
-	CheckDirty();
 }
 
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 {
 
 	pos = p_pos;
-	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
-	{
-		std::array<uint8_t, 3> _pos = From1Dto3D(i);
-		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) +p_pos;
-
-		ind = simplex.fractal(7, blocksPosition[i].x,  blocksPosition[i].z);
-
-		ind *= 5;
-		ind += 10;
-
-		if (_pos.at(1) > ind) {
-			if(blocks[i].GetID() != ID::Air)
-				blocks[i] = Block(ID::Air, false, false);
-		}				
-		else {
-			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + p_pos));
-			blocks[i] = Block(ID::Coal, true, true);
-		}
-	}
+	fillChunk();
 	updateChunk();
 }
 
@@ -226,6 +216,7 @@ void ChunkNS::Chunk::CheckDirty()
 				}
 				
 			}
+
 		}		
 	}
 }

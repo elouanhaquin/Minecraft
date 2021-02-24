@@ -65,6 +65,7 @@ namespace ChunkNS
 		
 		void shiftChunk(glm::ivec3 p_pos);
 		void GenerateBlocks(int xOffset, int yOffset);
+		void fillChunk();
 		void RenderFace();
 		void updateChunk();
 		void AddFace(Face& _faceToDraw, glm::vec3 _pos, ID _id );

@@ -24,6 +24,7 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 {
 	fillChunk();
 	CheckDirty();
+	//addTree();
 }
 
 void ChunkNS::Chunk::fillChunk()
@@ -34,7 +35,7 @@ void ChunkNS::Chunk::fillChunk()
 		std::array<uint8_t, 3> _pos = From1Dto3D(i);
 		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) + (glm::ivec3)pos;
 
-		ind = simplex.fractal(7, +blocksPosition[i].x, blocksPosition[i].z);
+		ind = simplex.fractal(7, blocksPosition[i].x, blocksPosition[i].z);
 
 		ind *= 5;
 		ind += 10;
@@ -45,10 +46,32 @@ void ChunkNS::Chunk::fillChunk()
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
 
+		
 
 			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);
 			blocks[i] =  blocksPosition[i].y > ind - 3 ? Block(ID::Grass, true, true) : Block(ID::Stone, true, true);
 			
+		}
+
+	}
+	float blocksInd = 0.0f;
+	for (int j = 0; j < DECO_BLOCKS_MAX; j++)
+	{
+		std::array<uint8_t, 3> _pos = From1Dto3D(j);
+		
+		blocksInd = simplex.fractal(7, _pos.at(0) + pos.x, _pos.at(1) + pos.z) ;
+		ind = simplex.noise(_pos.at(0), _pos.at(1));
+		blocksInd *= 5;
+		blocksInd += 10;
+		
+		
+		if (ind > 0.75) {
+		//	std::cout << "dez" << std::endl;
+			addTree(j, glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z));
+			j += 10;
+			//decoBlocksPosition[j] = glm::ivec3(_pos.at(0) + pos.x, blocksInd +1 , _pos.at(1) + pos.z);
+		//	decoBlocks[j].SetCollider(BoxCollider(decoBlocksPosition[j] + (glm::ivec3)pos));
+			//decoBlocks[j] = Block(ID::Stone, true, true);
 		}
 
 	}
@@ -60,6 +83,42 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 	pos = p_pos;
 	fillChunk();
 	updateChunk();
+	//addTree();
+}
+
+void ChunkNS::Chunk::addTree(unsigned int p_index , glm::ivec3 p_pos)
+{
+	if (p_index + 10 > DECO_BLOCKS_MAX) return;
+
+	decoBlocks[p_index] = Block(ID::Wood, true, true);
+	decoBlocks[p_index + 1] = Block(ID::Wood, true, true);
+	decoBlocks[p_index + 2] = Block(ID::Wood, true, true);
+	decoBlocks[p_index + 3] = Block(ID::Leaves, true, true);
+	decoBlocks[p_index + 4] = Block(ID::Leaves, true, true);
+	decoBlocks[p_index + 5] = Block(ID::Leaves, true, true);
+	decoBlocks[p_index + 6] = Block(ID::Leaves, true, true);
+	decoBlocks[p_index + 7] = Block(ID::Leaves, true, true);
+	decoBlocks[p_index + 8] = Block(ID::Leaves, true, true);
+
+
+	decoBlocksPosition[p_index]		= glm::ivec3(p_pos.x, p_pos.y, p_pos.z);
+	decoBlocksPosition[p_index + 1] = glm::ivec3(p_pos.x, p_pos.y + 1, p_pos.z);
+	decoBlocksPosition[p_index + 2] = glm::ivec3(p_pos.x, p_pos.y + 2, p_pos.z);
+	decoBlocksPosition[p_index + 3] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z);
+	decoBlocksPosition[p_index + 4] = glm::ivec3(p_pos.x + 1, p_pos.y + 3, p_pos.z);
+	decoBlocksPosition[p_index + 5] = glm::ivec3(p_pos.x - 1, p_pos.y + 3, p_pos.z);
+	decoBlocksPosition[p_index + 6] = glm::ivec3(p_pos.x, p_pos.y + 4, p_pos.z);
+	decoBlocksPosition[p_index + 7] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z - 1);
+	decoBlocksPosition[p_index + 8] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z + 1);
+
+	for (int i = 0; i < DECO_BLOCKS_MAX; i++) {
+		decoMesh.AddFace(0, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+		decoMesh.AddFace(2, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+		decoMesh.AddFace(3, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+		decoMesh.AddFace(4, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+		decoMesh.AddFace(5, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+	}
+	
 }
 
 
@@ -95,7 +154,9 @@ Chunk::~Chunk()
 
 void Chunk::Draw()
 {
+
 	Mesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
+	decoMesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
 }
 
 
@@ -138,6 +199,7 @@ void Chunk::RenderFace()
 	}
 
 	Mesh.AddGPUData();
+	decoMesh.AddGPUData();
 }
 
 void ChunkNS::Chunk::updateChunk()
@@ -188,6 +250,7 @@ void ChunkNS::Chunk::CheckDirty()
 					switch (j) {
 					case 0:
 						blocks[i].SetFaceToRender(Face::ALL);
+
 					case 1:
 						blocks[i].GetFace() |= Face::TOP;
 						blocks[i].GetFace() |= Face::BOTTOM;
@@ -216,7 +279,6 @@ void ChunkNS::Chunk::CheckDirty()
 				}
 				
 			}
-
 		}		
 	}
 }

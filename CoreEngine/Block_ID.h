@@ -15,6 +15,10 @@ namespace BlockNS
 		Sand = 4,
 		Iron = 5,
 		BedRock = 6,
+		Leaves = 7,
+		Wood = 8,
+	
+
 
 		NUM_BLOCK_TYPES
 	};

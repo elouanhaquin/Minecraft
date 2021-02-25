@@ -5,6 +5,7 @@
 #include <glm\glm.hpp>
 #include <Mesh.h>
 #include <ChunkMesh.h>
+#include <DecorationMesh.h>
 #include <SimplexNoise.h>
 
 using namespace BlockNS;
@@ -13,6 +14,7 @@ using namespace RenderEngineNS;
 
 #define CHUNK_SIZE  16
 
+#define DECO_BLOCKS_MAX (CHUNK_SIZE * CHUNK_SIZE)
 #define CHUNK_ELEMENTS_COUNT (CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE)
 
 
@@ -35,6 +37,9 @@ namespace ChunkNS
 		Block		blocks[CHUNK_ELEMENTS_COUNT];
 		glm::ivec3	blocksPosition[CHUNK_ELEMENTS_COUNT];
 
+		Block		decoBlocks[DECO_BLOCKS_MAX];
+		glm::ivec3	decoBlocksPosition[DECO_BLOCKS_MAX];
+
 		Face chunkFace;
 		int index;
 		int m_seed;
@@ -42,6 +47,7 @@ namespace ChunkNS
 		SimplexNoise simplex;
 		glm::ivec3	pos;
 		ChunkMesh	Mesh;
+		DecorationMesh decoMesh;
 
 		NeighboursChunk m_neighboursChunk;
 
@@ -64,6 +70,7 @@ namespace ChunkNS
 
 		
 		void shiftChunk(glm::ivec3 p_pos);
+		void addTree(unsigned int p_index, glm::ivec3 p_pos);
 		void GenerateBlocks(int xOffset, int yOffset);
 		void fillChunk();
 		void RenderFace();

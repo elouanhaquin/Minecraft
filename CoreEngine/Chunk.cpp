@@ -62,19 +62,15 @@ void ChunkNS::Chunk::fillChunk()
 		blocksInd = simplex.fractal(7, _pos.at(0) + pos.x, _pos.at(1) + pos.z) ;
 		ind = simplex.noise(_pos.at(0), _pos.at(1));
 		blocksInd *= 5;
-		blocksInd += 10;
-		
+		blocksInd += 10;	
 		
 		if (ind > 0.75) {
-		//	std::cout << "dez" << std::endl;
 			addTree(j, glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z));
 			j += 10;
-			//decoBlocksPosition[j] = glm::ivec3(_pos.at(0) + pos.x, blocksInd +1 , _pos.at(1) + pos.z);
-		//	decoBlocks[j].SetCollider(BoxCollider(decoBlocksPosition[j] + (glm::ivec3)pos));
-			//decoBlocks[j] = Block(ID::Stone, true, true);
 		}
 
 	}
+	renderTrees();
 }
 
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
@@ -83,7 +79,7 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 	pos = p_pos;
 	fillChunk();
 	updateChunk();
-	//addTree();
+	renderTrees();
 }
 
 void ChunkNS::Chunk::addTree(unsigned int p_index , glm::ivec3 p_pos)
@@ -111,14 +107,18 @@ void ChunkNS::Chunk::addTree(unsigned int p_index , glm::ivec3 p_pos)
 	decoBlocksPosition[p_index + 7] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z - 1);
 	decoBlocksPosition[p_index + 8] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z + 1);
 
+}
+
+void ChunkNS::Chunk::renderTrees()
+{
 	for (int i = 0; i < DECO_BLOCKS_MAX; i++) {
 		decoMesh.AddFace(0, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+		decoMesh.AddFace(1, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 		decoMesh.AddFace(2, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 		decoMesh.AddFace(3, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 		decoMesh.AddFace(4, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 		decoMesh.AddFace(5, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 	}
-	
 }
 
 
@@ -197,6 +197,7 @@ void Chunk::RenderFace()
 	  (From1Dto3D(i).at(0) == CHUNK_SIZE - 1 && m_neighboursChunk.right == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
 	  (From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
 	}
+	renderTrees();
 
 	Mesh.AddGPUData();
 	decoMesh.AddGPUData();
@@ -204,6 +205,7 @@ void Chunk::RenderFace()
 
 void ChunkNS::Chunk::updateChunk()
 {
+	decoMesh.removeGPUData();
 	Mesh.removeGPUData();
 	CheckDirty();
 	RenderFace();

@@ -71,6 +71,7 @@ namespace ChunkNS
 		
 		void shiftChunk(glm::ivec3 p_pos);
 		void addTree(unsigned int p_index, glm::ivec3 p_pos);
+		void renderTrees();
 		void GenerateBlocks(int xOffset, int yOffset);
 		void fillChunk();
 		void RenderFace();

@@ -28,4 +28,4 @@ Et ce grâce à de nombreuses optimisations.
 J'ai appris beaucoup en reprennant le projet, et dès que je travaille dessus à côté de mes études, je continue de beaucoup apprendre.
 
 ### Une capture du projet aujourd'hui
-![Minecraft 2021](https://i.ibb.co/0K5fWM2/minecraft.jpg)
+![Minecraft 2021](https://i.ibb.co/3WJgmym/Arbres.jpg)

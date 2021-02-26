@@ -7,9 +7,9 @@ J'ai décidé de reprendre le projet en parallèle de mes études pour réaliser
 ## Ce que nous avions réalisé :
 
 Les bases du rendering étaient posées, nous pouvions rendre un block.
-Quelques essais afin de réaliser de la physique avaient étés également tentés.
-Mais les choix de texture n'avaient pas étés implémenter, rendre un chunk de 16 / 16 / 16 utilisait environ 300 MO de mémoire.
-Un exemple de ce que l'on avait atteind :
+Quelques essais afin d'implémenter des bases de physique avaient étés également tentés.
+Mais les choix de texture n'avaient pas étés implémentées, rendre un chunk de 16 / 16 / 16 utilisait environ 300 MO de mémoire.
+Un exemple de ce que l'on avait atteint :
 
 ![Minecraft 2018](https://i.ibb.co/f9YWJJV/Gen-Opengl.png)
 
@@ -25,6 +25,13 @@ Je me suis d'abord attaqué à la partie graphique du projet, c'est ce que je fa
 En effet, cette partie m'interesse énormément, et j'aime la pousser au maximum.
 Par exemple, aujourd'hui 100 Chunks de 16/16/16 ne prennent que 250 MO.
 Et ce grâce à de nombreuses optimisations.
+
+J'ai donc repris entièrement la génération du Chunk, ajouté un système optimisé de vérification de voisins (Voir si un bloc est occludé par un autre).
+Ensuite je me suis attaqué à implémenter différentes textures, j'ai eu quelques soucis sur cette partie, mais après avoir implémenté un atlas de textures, tout allait mieux.
+Cette partie fonctionnelle, j'ai voulu rendre le jeu plus vivant en y implémentant des "décorations". J'ai donc ajouté des arbres, et de l'eau.
+C'est là où j'en suis aujourd'hui, je suis vraiment content, j'avance vite, et je ne bloque plus sur des problèmes mineurs.  
+
+
 J'ai appris beaucoup en reprennant le projet, et dès que je travaille dessus à côté de mes études, je continue de beaucoup apprendre.
 
 ### Une capture du projet aujourd'hui

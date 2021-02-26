@@ -203,6 +203,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="include\Time.h" />
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIMenu.h" />
     <ClInclude Include="World.h" />
@@ -232,6 +233,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Time.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIMenu.cpp" />
     <ClCompile Include="World.cpp" />

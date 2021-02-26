@@ -16,7 +16,7 @@ Collider::Collider(Primitive* aPrimivite)
 CoreEngineNS::Collider::~Collider()
 {
 
-	delete m_primitive;
+//	delete m_primitive;
 
 }
 

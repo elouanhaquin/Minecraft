@@ -2,11 +2,13 @@
 
 #include "CoreEngineAPI.h"
 #include <Block.h>
+#include <Tree.h>
 #include <glm\glm.hpp>
 #include <Mesh.h>
 #include <ChunkMesh.h>
 #include <DecorationMesh.h>
 #include <SimplexNoise.h>
+
 
 using namespace BlockNS;
 using namespace RenderEngineNS;
@@ -40,6 +42,8 @@ namespace ChunkNS
 		Block		decoBlocks[DECO_BLOCKS_MAX];
 		glm::ivec3	decoBlocksPosition[DECO_BLOCKS_MAX];
 
+		Tree* Trees[DECO_BLOCKS_MAX];
+
 		Face chunkFace;
 		int index;
 		int m_seed;
@@ -70,7 +74,6 @@ namespace ChunkNS
 
 		
 		void shiftChunk(glm::ivec3 p_pos);
-		void addTree(unsigned int p_index, glm::ivec3 p_pos);
 		void renderTrees();
 		void GenerateBlocks(int xOffset, int yOffset);
 		void fillChunk();

@@ -62,64 +62,36 @@ void ChunkNS::Chunk::fillChunk()
 		blocksInd *= 5;
 		blocksInd += 10;	
 		
-		if (ind > 0.75) {
-			addTree(j, glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z));
-			j += 10;
+		if (ind > 0.85) {
+			Trees[j] = new Tree(glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z));
 		}
-
 	}
 	renderTrees();
 }
 
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 {
-
 	pos = p_pos;
 	fillChunk();
 	updateChunk();
 	renderTrees();
 }
 
-void ChunkNS::Chunk::addTree(unsigned int p_index , glm::ivec3 p_pos)
-{
-	if (p_index + 10 > DECO_BLOCKS_MAX) return;
-
-	decoBlocks[p_index]		= Block(ID::Wood, true, true);
-	decoBlocks[p_index + 1] = Block(ID::Wood, true, true);
-	decoBlocks[p_index + 2] = Block(ID::Wood, true, true);
-	decoBlocks[p_index + 3] = Block(ID::Leaves, true, true);
-	decoBlocks[p_index + 4] = Block(ID::Leaves, true, true);
-	decoBlocks[p_index + 5] = Block(ID::Leaves, true, true);
-	decoBlocks[p_index + 6] = Block(ID::Leaves, true, true);
-	decoBlocks[p_index + 7] = Block(ID::Leaves, true, true);
-	decoBlocks[p_index + 8] = Block(ID::Leaves, true, true);
-
-
-	decoBlocksPosition[p_index]		= glm::ivec3(p_pos.x, p_pos.y, p_pos.z);
-	decoBlocksPosition[p_index + 1] = glm::ivec3(p_pos.x, p_pos.y + 1, p_pos.z);
-	decoBlocksPosition[p_index + 2] = glm::ivec3(p_pos.x, p_pos.y + 2, p_pos.z);
-	decoBlocksPosition[p_index + 3] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z);
-	decoBlocksPosition[p_index + 4] = glm::ivec3(p_pos.x + 1, p_pos.y + 3, p_pos.z);
-	decoBlocksPosition[p_index + 5] = glm::ivec3(p_pos.x - 1, p_pos.y + 3, p_pos.z);
-	decoBlocksPosition[p_index + 6] = glm::ivec3(p_pos.x, p_pos.y + 4, p_pos.z);
-	decoBlocksPosition[p_index + 7] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z - 1);
-	decoBlocksPosition[p_index + 8] = glm::ivec3(p_pos.x, p_pos.y + 3, p_pos.z + 1);
-
-}
-
 void ChunkNS::Chunk::renderTrees()
 {
 	//Only render top and bottom for leaves
 	for (int i = 0; i < DECO_BLOCKS_MAX; i++){
-		if (decoBlocks[i].GetID() != ID::Wood) {
-			decoMesh.AddFace(0, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
-			decoMesh.AddFace(1, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
-		}
+		for (uint8_t j = 0; Trees[i] != nullptr && j < 9; j++) {
+			if (Trees[i]->getBlock(j).GetID() != ID::Wood) {
+				decoMesh.AddFace(0, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+				decoMesh.AddFace(1, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+			}
 
-		decoMesh.AddFace(2, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
-		decoMesh.AddFace(3, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
-		decoMesh.AddFace(4, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
-		decoMesh.AddFace(5, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+			decoMesh.AddFace(2, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+			decoMesh.AddFace(3, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+			decoMesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+			decoMesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+		}
 	}
 }
 

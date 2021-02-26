@@ -4,13 +4,6 @@
 #include <ShaderCore.h>
 #include <ResourceManager.h>
 
-/*
-TODO:
-	-Check if cube is dirty and update
-	-Update Face Culling
-	-Generate Mesh
-	-Instancing
-*/
 
 using namespace ChunkNS;
 
@@ -18,6 +11,7 @@ Chunk::Chunk(glm::ivec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh())
 {
 	m_seed = seed;
 	m_treeCount = 0;
+	m_waterCount = 0;
 }
 
 
@@ -25,14 +19,15 @@ void Chunk::GenerateBlocks(int xOffset, int yOffset)
 {
 	fillChunk();
 	CheckDirty();
-	//addTree();
 }
 
 void ChunkNS::Chunk::fillChunk()
 {
+	m_treeCount = 0;
+	m_waterCount = 0;
+	
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
-
 		std::array<uint8_t, 3> _pos = From1Dto3D(i);
 		blocksPosition[i] = glm::ivec3(_pos.at(0), _pos.at(1), _pos.at(2)) + (glm::ivec3)pos;
 
@@ -49,10 +44,9 @@ void ChunkNS::Chunk::fillChunk()
 
 			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);
 			blocks[i] =  blocksPosition[i].y > ind - 3 ? Block(ID::Grass, true, true) : Block(ID::Stone, true, true);
-			
 		}
-
 	}
+
 	float blocksInd = 0.0f;
 	for (int j = 0; j < DECO_BLOCKS_MAX; j++)
 	{
@@ -63,13 +57,20 @@ void ChunkNS::Chunk::fillChunk()
 		blocksInd *= 5;
 		blocksInd += 10;	
 		
-		if (ind > 0.95) {
+		if (blocksInd < 9) {
+			waterBlocks[m_waterCount] = Block(ID::Water, true, true);
+			waterBlocksPosition[m_waterCount] = glm::ivec3(_pos.at(0) + pos.x, 9, _pos.at(1) + pos.z);
+			m_waterCount++;
+		}
+
+		if (ind > 0.95 && blocksInd > 9) {
 			glm::ivec3 newPos = glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z);
 			Trees[m_treeCount] = Trees[m_treeCount] == nullptr ? new Tree(newPos) : Trees[m_treeCount]->moveTo(newPos);
 			m_treeCount++;
 		}
 	}
 	renderTrees();
+	renderWater();
 }
 
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
@@ -84,7 +85,9 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 
 	fillChunk();
 	updateChunk();
+	renderWater();
 	renderTrees();
+
 }
 
 void ChunkNS::Chunk::renderTrees()
@@ -102,6 +105,14 @@ void ChunkNS::Chunk::renderTrees()
 			decoMesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
 			decoMesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
 		}
+	}
+}
+
+void ChunkNS::Chunk::renderWater()
+{
+	for (unsigned int i = 0; i < m_waterCount; i++)
+	{
+			decoMesh.AddFace(0, waterBlocksPosition[i], (uint16_t)waterBlocks[i].GetID());
 	}
 }
 
@@ -125,13 +136,11 @@ uint16_t ChunkNS::Chunk::From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z)
 
 Chunk::~Chunk()
 {
-
 	/*m_isRunning = false;
 	for (auto& thread : m_chunkLoadThreads) {
 		thread.join();
 	}*/
 	
-
 	//delete []blocks;
 	//delete []blocksPosition;
 }
@@ -184,7 +193,8 @@ void Chunk::RenderFace()
 	  (From1Dto3D(i).at(0) == CHUNK_SIZE - 1 && m_neighboursChunk.right == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
 	  (From1Dto3D(i).at(2) == CHUNK_SIZE - 1 && m_neighboursChunk.back  == nullptr && blocks[i].GetID() != ID::Air) ? AddFace(blocks[i].GetFace(), this->blocksPosition[i], blocks[i].GetID()) : (void)0;
 	}
-	renderTrees();
+
+
 
 	Mesh.AddGPUData();
 	decoMesh.AddGPUData();
@@ -195,7 +205,10 @@ void ChunkNS::Chunk::updateChunk()
 	decoMesh.removeGPUData();
 	Mesh.removeGPUData();
 	CheckDirty();
+	renderWater();
+	renderTrees();
 	RenderFace();
+
 }
 
 Block* Chunk::GetBlockAtPosition(glm::ivec3 _pos)
@@ -217,7 +230,6 @@ void ChunkNS::Chunk::CheckDirty()
 			blocks[i].SetOpaque(false);
 			blocks[i].SetFaceToRender(Face::NOTHING);
 		}
-
 		else {
 			Block* neightbors[6] = {
 				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y + 1,  blocksPosition[i].z) - pos),
@@ -227,14 +239,12 @@ void ChunkNS::Chunk::CheckDirty()
 				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z + 1) - pos),
 				GetBlockAtPosition(glm::ivec3(blocksPosition[i].x,		blocksPosition[i].y,	  blocksPosition[i].z - 1) - pos)};
 
-
 			for (int j = 0; j < (sizeof(neightbors) / sizeof(Block*)); j++)
 			{
 				if (neightbors[j] == nullptr || neightbors[j]->GetID() == ID::Air) {
 
 					blocks[i].SetCollidable(true);
 					blocks[i].SetOpaque(true);
-
 
 					switch (j) {
 					case 0:

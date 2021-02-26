@@ -35,12 +35,11 @@ namespace ChunkNS
 			Chunk* front = nullptr;
 		};
 
-
 		Block		blocks[CHUNK_ELEMENTS_COUNT];
 		glm::ivec3	blocksPosition[CHUNK_ELEMENTS_COUNT];
 
-		Block		decoBlocks[DECO_BLOCKS_MAX];
-		glm::ivec3	decoBlocksPosition[DECO_BLOCKS_MAX];
+		Block		waterBlocks[DECO_BLOCKS_MAX];
+		glm::ivec3	waterBlocksPosition[DECO_BLOCKS_MAX];
 
 		Tree* Trees[DECO_BLOCKS_MAX];
 
@@ -48,6 +47,7 @@ namespace ChunkNS
 		int index;
 		int m_seed;
 		int m_treeCount;
+		int m_waterCount;
 		float ind;
 
 		SimplexNoise simplex;
@@ -77,6 +77,7 @@ namespace ChunkNS
 		
 		void shiftChunk(glm::ivec3 p_pos);
 		void renderTrees();
+		void renderWater();
 		void GenerateBlocks(int xOffset, int yOffset);
 		void fillChunk();
 		void RenderFace();

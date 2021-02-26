@@ -6,7 +6,7 @@ RenderEngineNS::DecorationMesh::DecorationMesh()
 	indicesCount = 0;
 	faceCount = 0;
 
-	m_textures.push_back(Texture(2, "Wood"));
+	m_textures.push_back(Texture(2, "DecorationAtlas"));
 }
 
 RenderEngineNS::DecorationMesh::~DecorationMesh()
@@ -24,20 +24,25 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 	_tex -= 6;
 
-	float v0t = -(float)((0 + _tex) * 0.5f) - 0.05f;
-	float v1t = -(float)((1 + _tex) * 0.5f) + 0.05f;
+	//Ifthis is a waterTexture
+	float reductionForWater = 0.0f;
+	if (_tex == 3)
+		reductionForWater = 0.2f;
+
+	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
+	float v1t = (float)((1 + _tex) * 0.33f) - 0.05f;
 
 	switch (_faceType)
 	{
 	case 0: //Top
 
-		v[0].m_position = glm::vec3(0.5f, 0.5f, -0.5f) + pos;
-		v[1].m_position = glm::vec3(-0.5f, 0.5f, 0.5f) + pos;
-		v[2].m_position = glm::vec3(0.5f, 0.5f, 0.5f) + pos;
+		v[0].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, -0.5f) + pos;
+		v[1].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, 0.5f) + pos;
+		v[2].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, 0.5f) + pos;
 
-		v[3].m_position = glm::vec3(0.5f, 0.5f, -0.5f) + pos;
-		v[4].m_position = glm::vec3(-0.5f, 0.5f, -0.5f) + pos;
-		v[5].m_position = glm::vec3(-0.5f, 0.5f, 0.5f) + pos;
+		v[3].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, -0.5f) + pos;
+		v[4].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, -0.5f) + pos;
+		v[5].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, 0.5f) + pos;
 
 		//TextCoords
 		v[0].m_textureCoord = glm::vec2(0.45, v0t);

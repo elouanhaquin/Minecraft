@@ -77,6 +77,8 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 	++faceCount;
 	Vertex v[6];
 
+
+
 	_tex--;
 
 	//0.166f is 1(max Size) / 6 (textures number)

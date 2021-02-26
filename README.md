@@ -35,4 +35,4 @@ C'est là où j'en suis aujourd'hui, je suis vraiment content, j'avance vite, et
 J'ai appris beaucoup en reprennant le projet, et dès que je travaille dessus à côté de mes études, je continue de beaucoup apprendre.
 
 ### Une capture du projet aujourd'hui
-![Minecraft 2021](https://i.ibb.co/ykdxBRK/water.jpg)
+![Minecraft 2021](https://i.ibb.co/ZWk8kD0/sand.jpg)

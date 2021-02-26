@@ -43,7 +43,10 @@ void ChunkNS::Chunk::fillChunk()
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
 
 			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);
+		
 			blocks[i] =  blocksPosition[i].y > ind - 3 ? Block(ID::Grass, true, true) : Block(ID::Stone, true, true);
+
+			if (blocksPosition[i].y == 9) blocks[i] = Block(ID::Sand, true, true); 
 		}
 	}
 
@@ -63,7 +66,7 @@ void ChunkNS::Chunk::fillChunk()
 			m_waterCount++;
 		}
 
-		if (ind > 0.95 && blocksInd > 9) {
+		if (ind > 0.95 && blocksInd > 10) {
 			glm::ivec3 newPos = glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z);
 			Trees[m_treeCount] = Trees[m_treeCount] == nullptr ? new Tree(newPos) : Trees[m_treeCount]->moveTo(newPos);
 			m_treeCount++;

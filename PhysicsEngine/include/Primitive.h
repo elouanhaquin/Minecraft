@@ -21,7 +21,7 @@ namespace PhysicsEngineNS
 
 	public :
 		Primitive();
-		~Primitive() = default;
+		~Primitive() { ; }
 
 		glm::vec3& Position();
 		const EPrimitiveType Type();

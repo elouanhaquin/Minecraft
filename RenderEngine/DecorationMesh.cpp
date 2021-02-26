@@ -355,6 +355,8 @@ void RenderEngineNS::DecorationMesh::removeGPUData()
 
 void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
 {
+	if (m_indices.size() <= 0) return;
+
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;

@@ -19,6 +19,7 @@ namespace CoreEngineNS
 		BoxCollider(glm::vec3 pos, glm::vec3 p_min = glm::vec3(-0.5), glm::vec3 p_max = glm::vec3(0.5));
 		//BoxCollider(glm::vec3 p_min, glm::vec3 p_max);
 		
+		//~BoxCollider() { if(m_box != nullptr)delete m_box; }
 
 		void Awake() override;
 		void Update() override;

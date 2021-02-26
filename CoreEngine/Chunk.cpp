@@ -17,6 +17,7 @@ using namespace ChunkNS;
 Chunk::Chunk(glm::ivec3 _pos, int seed) : pos(_pos), index(0), Mesh(ChunkMesh()), simplex(SimplexNoise(0.020f,8.0f,1.0f,150.0f))
 {
 	m_seed = seed;
+	m_treeCount = 0;
 }
 
 
@@ -62,8 +63,10 @@ void ChunkNS::Chunk::fillChunk()
 		blocksInd *= 5;
 		blocksInd += 10;	
 		
-		if (ind > 0.85) {
-			Trees[j] = new Tree(glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z));
+		if (ind > 0.95) {
+			glm::ivec3 newPos = glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z);
+			Trees[m_treeCount] = Trees[m_treeCount] == nullptr ? new Tree(newPos) : Trees[m_treeCount]->moveTo(newPos);
+			m_treeCount++;
 		}
 	}
 	renderTrees();
@@ -72,6 +75,13 @@ void ChunkNS::Chunk::fillChunk()
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 {
 	pos = p_pos;
+	
+	if (Trees != nullptr)
+		for (int i = 0; Trees[i] != nullptr && i < m_treeCount; i++)
+			 Trees[i] = nullptr;
+	
+	m_treeCount = 0;
+
 	fillChunk();
 	updateChunk();
 	renderTrees();
@@ -80,17 +90,17 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 void ChunkNS::Chunk::renderTrees()
 {
 	//Only render top and bottom for leaves
-	for (int i = 0; i < DECO_BLOCKS_MAX; i++){
-		for (uint8_t j = 0; Trees[i] != nullptr && j < 9; j++) {
-			if (Trees[i]->getBlock(j).GetID() != ID::Wood) {
-				decoMesh.AddFace(0, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
-				decoMesh.AddFace(1, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+	for (unsigned int i = 0; Trees[i] != nullptr && i < m_treeCount; i++){
+		for (unsigned int j = 0; Trees[i]->getBlock(j) != nullptr && j < 9; j++) {
+			if (Trees[i]->getBlock(j)->GetID() != ID::Wood) {
+				decoMesh.AddFace(0, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				decoMesh.AddFace(1, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
 			}
 
-			decoMesh.AddFace(2, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
-			decoMesh.AddFace(3, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
-			decoMesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
-			decoMesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j).GetID());
+			decoMesh.AddFace(2, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+			decoMesh.AddFace(3, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+			decoMesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+			decoMesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
 		}
 	}
 }

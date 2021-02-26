@@ -47,7 +47,9 @@ namespace ChunkNS
 		Face chunkFace;
 		int index;
 		int m_seed;
+		int m_treeCount;
 		float ind;
+
 		SimplexNoise simplex;
 		glm::ivec3	pos;
 		ChunkMesh	Mesh;

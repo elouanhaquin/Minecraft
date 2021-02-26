@@ -46,8 +46,6 @@ void ChunkNS::Chunk::fillChunk()
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
 
-		
-
 			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);
 			blocks[i] =  blocksPosition[i].y > ind - 3 ? Block(ID::Grass, true, true) : Block(ID::Stone, true, true);
 			
@@ -86,7 +84,7 @@ void ChunkNS::Chunk::addTree(unsigned int p_index , glm::ivec3 p_pos)
 {
 	if (p_index + 10 > DECO_BLOCKS_MAX) return;
 
-	decoBlocks[p_index] = Block(ID::Wood, true, true);
+	decoBlocks[p_index]		= Block(ID::Wood, true, true);
 	decoBlocks[p_index + 1] = Block(ID::Wood, true, true);
 	decoBlocks[p_index + 2] = Block(ID::Wood, true, true);
 	decoBlocks[p_index + 3] = Block(ID::Leaves, true, true);
@@ -111,9 +109,13 @@ void ChunkNS::Chunk::addTree(unsigned int p_index , glm::ivec3 p_pos)
 
 void ChunkNS::Chunk::renderTrees()
 {
-	for (int i = 0; i < DECO_BLOCKS_MAX; i++) {
-		decoMesh.AddFace(0, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
-		decoMesh.AddFace(1, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+	//Only render top and bottom for leaves
+	for (int i = 0; i < DECO_BLOCKS_MAX; i++){
+		if (decoBlocks[i].GetID() != ID::Wood) {
+			decoMesh.AddFace(0, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+			decoMesh.AddFace(1, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
+		}
+
 		decoMesh.AddFace(2, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 		decoMesh.AddFace(3, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
 		decoMesh.AddFace(4, decoBlocksPosition[i], (uint16_t)decoBlocks[i].GetID());
@@ -154,8 +156,11 @@ Chunk::~Chunk()
 
 void Chunk::Draw()
 {
-
 	Mesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
+}
+
+void ChunkNS::Chunk::DrawDecoration()
+{
 	decoMesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
 }
 

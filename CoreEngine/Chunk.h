@@ -78,6 +78,7 @@ namespace ChunkNS
 		void updateChunk();
 		void AddFace(Face& _faceToDraw, glm::vec3 _pos, ID _id );
 		void Draw();
+		void DrawDecoration();
 		void CheckDirty();
 		void SetChunksNeighbour( Chunk* p_left, Chunk* p_right, Chunk*  p_top, Chunk* p_bot, Chunk*  p_front, Chunk* p_back);
 

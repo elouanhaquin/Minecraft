@@ -331,13 +331,13 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(-0.92, 0, 0);
-		v[1].m_normal = glm::vec3(-0.92, 0, 0);
-		v[2].m_normal = glm::vec3(-0.92, 0, 0);
+		v[0].m_normal = glm::vec3(0.6f, 0, 0);
+		v[1].m_normal = glm::vec3(0.6f, 0, 0);
+		v[2].m_normal = glm::vec3(0.6f, 0, 0);
 
-		v[3].m_normal = glm::vec3(-0.92, 0, 0);
-		v[4].m_normal = glm::vec3(-0.92, 0, 0);
-		v[5].m_normal = glm::vec3(-0.92, 0, 0);
+		v[3].m_normal = glm::vec3(0.6f, 0, 0);
+		v[4].m_normal = glm::vec3(0.6f, 0, 0);
+		v[5].m_normal = glm::vec3(0.6f, 0, 0);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -373,6 +373,7 @@ void ChunkMesh::Draw(Shader& p_shader)
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
+	glUseProgram(p_shader.GetRendererID());
 
 	for (unsigned int i = 0; i < m_textures.size(); i++)
 	{
@@ -397,7 +398,6 @@ void ChunkMesh::Draw(Shader& p_shader)
 
 		glm::vec3 light = glm::vec3(-4, -1000, 0);
 		p_shader.SetVec3("lightPos", light);
-
 		p_shader.SetUniform1i(name + number, i);
 		// and finally bind the texture
 		 
@@ -409,6 +409,7 @@ void ChunkMesh::Draw(Shader& p_shader)
 	//glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, m_indices[0], m_indices.size());
 	glBindVertexArray(0);
+	glUseProgram(0);
 
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);

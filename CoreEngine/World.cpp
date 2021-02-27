@@ -177,8 +177,13 @@ void World::Draw()
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{
+		chunks[i]->DrawWater();
+	}
+	for (int i = 0; i < chunks.size(); ++i)
+	{
 		chunks[i]->DrawDecoration();
 	}
+
 }
 
 Chunk * WorldNS::World::getChunkAtPos(const glm::vec3 & p_pos)

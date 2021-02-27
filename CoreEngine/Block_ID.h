@@ -17,7 +17,8 @@ namespace BlockNS
 		BedRock = 6,
 		Leaves = 7,
 		Wood = 8,
-		Water = 9,
+		Water = 9, 
+		Weeds = 10,
 	
 
 

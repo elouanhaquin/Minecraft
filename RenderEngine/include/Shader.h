@@ -22,6 +22,7 @@ namespace RenderEngineNS
 		void Bind() const;
 		void Unbind() const;
 
+		void SetUniform1f(const std::string& name, float value);
 		void SetUniform1i(const std::string& name, int value);
 		void SetVec3(const std::string& name, glm::vec3& p_vec);
 		void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);

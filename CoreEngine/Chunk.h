@@ -7,6 +7,7 @@
 #include <Mesh.h>
 #include <ChunkMesh.h>
 #include <DecorationMesh.h>
+#include <WaterMesh.h>
 #include <SimplexNoise.h>
 
 
@@ -54,6 +55,7 @@ namespace ChunkNS
 		glm::ivec3	pos;
 		ChunkMesh	Mesh;
 		DecorationMesh decoMesh;
+		WaterMesh waterMesh;
 
 		NeighboursChunk m_neighboursChunk;
 
@@ -78,6 +80,7 @@ namespace ChunkNS
 		void shiftChunk(glm::ivec3 p_pos);
 		void renderTrees();
 		void renderWater();
+
 		void GenerateBlocks(int xOffset, int yOffset);
 		void fillChunk();
 		void RenderFace();
@@ -85,6 +88,7 @@ namespace ChunkNS
 		void AddFace(Face& _faceToDraw, glm::vec3 _pos, ID _id );
 		void Draw();
 		void DrawDecoration();
+		void DrawWater();
 		void CheckDirty();
 		void SetChunksNeighbour( Chunk* p_left, Chunk* p_right, Chunk*  p_top, Chunk* p_bot, Chunk*  p_front, Chunk* p_back);
 

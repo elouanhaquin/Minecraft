@@ -41,12 +41,9 @@ void ChunkNS::Chunk::fillChunk()
 		}
 		else {
 			blocks[i].SetCollider(BoxCollider(blocksPosition[i] + (glm::ivec3)pos));
-
-			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);
-		
+			blocks[i] =  blocksPosition[i].y < 2 ?  Block(ID::BedRock, true, true) : Block(ID::Stone, true, true);	
 			blocks[i] =  blocksPosition[i].y > ind - 3 ? Block(ID::Grass, true, true) : Block(ID::Stone, true, true);
-
-			if (blocksPosition[i].y == 9) blocks[i] = Block(ID::Sand, true, true); 
+			if (ind <= 10) blocks[i] = Block(ID::Sand, true, true);
 		}
 	}
 
@@ -61,9 +58,12 @@ void ChunkNS::Chunk::fillChunk()
 		blocksInd += 10;	
 		
 		if (blocksInd < 9) {
-			waterBlocks[m_waterCount] = Block(ID::Water, true, true);
+			if (waterBlocks[m_waterCount].GetID() != ID::Water) {
+				waterBlocks[m_waterCount] =  Block(ID::Water, true, true);
+			}
 			waterBlocksPosition[m_waterCount] = glm::ivec3(_pos.at(0) + pos.x, 9, _pos.at(1) + pos.z);
 			m_waterCount++;
+		
 		}
 
 		if (ind > 0.95 && blocksInd > 10) {
@@ -72,8 +72,11 @@ void ChunkNS::Chunk::fillChunk()
 			m_treeCount++;
 		}
 	}
-	renderTrees();
+
 	renderWater();
+	renderTrees();
+	
+	
 }
 
 void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
@@ -83,13 +86,15 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 	if (Trees != nullptr)
 		for (int i = 0; Trees[i] != nullptr && i < m_treeCount; i++)
 			 Trees[i] = nullptr;
+
 	
-	m_treeCount = 0;
 
 	fillChunk();
 	updateChunk();
+
 	renderWater();
 	renderTrees();
+
 
 }
 
@@ -113,14 +118,10 @@ void ChunkNS::Chunk::renderTrees()
 
 void ChunkNS::Chunk::renderWater()
 {
-	for (unsigned int i = 0; i < m_waterCount; i++)
-	{
-			decoMesh.AddFace(0, waterBlocksPosition[i], (uint16_t)waterBlocks[i].GetID());
-	}
+	for (unsigned int i = 0;  i < m_waterCount ; i++)
+		waterMesh.AddFace(0, waterBlocksPosition[i], (uint16_t)waterBlocks[i].GetID());
+	
 }
-
-
-
 
 std::array<uint8_t, 3> ChunkNS::Chunk::From1Dto3D(uint16_t p_index)
 {
@@ -156,6 +157,11 @@ void Chunk::Draw()
 void ChunkNS::Chunk::DrawDecoration()
 {
 	decoMesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
+}
+
+void ChunkNS::Chunk::DrawWater()
+{
+	waterMesh.Draw(*ResourceManager::Instance().GetShader("WaterEffect"));
 }
 
 
@@ -201,16 +207,21 @@ void Chunk::RenderFace()
 
 	Mesh.AddGPUData();
 	decoMesh.AddGPUData();
+	waterMesh.AddGPUData();
 }
 
 void ChunkNS::Chunk::updateChunk()
 {
 	decoMesh.removeGPUData();
 	Mesh.removeGPUData();
+	waterMesh.removeGPUData();
+
 	CheckDirty();
+
 	renderWater();
 	renderTrees();
 	RenderFace();
+	
 
 }
 

@@ -1,7 +1,10 @@
 #include "stdafx.h"
-#include "DecorationMesh.h"
+#include "WaterMesh.h"
 
-RenderEngineNS::DecorationMesh::DecorationMesh()
+
+
+
+RenderEngineNS::WaterMesh::WaterMesh()
 {
 	indicesCount = 0;
 	faceCount = 0;
@@ -9,7 +12,7 @@ RenderEngineNS::DecorationMesh::DecorationMesh()
 	m_textures.push_back(Texture(2, "DecorationAtlas"));
 }
 
-RenderEngineNS::DecorationMesh::~DecorationMesh()
+RenderEngineNS::WaterMesh::~WaterMesh()
 {
 	m_indices.clear();
 	m_vertices.clear();
@@ -17,13 +20,16 @@ RenderEngineNS::DecorationMesh::~DecorationMesh()
 	faceCount = 0;
 }
 
-void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
+void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 {
 	++faceCount;
 	Vertex v[6];
 
 	_tex -= 6;
 
+	float reductionForWater = 0.0f;
+	if (_tex == 3)
+		reductionForWater = 0.2f;
 
 	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
 	float v1t = (float)((1 + _tex) * 0.33f) - 0.05f;
@@ -32,13 +38,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 	{
 	case 0: //Top
 
-		v[0].m_position = glm::vec3(0.5f, 0.5f, -0.5f) + pos;
-		v[1].m_position = glm::vec3(-0.5f, 0.5f, 0.5f) + pos;
-		v[2].m_position = glm::vec3(0.5f, 0.5f, 0.5f) + pos;
+		v[0].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, -0.5f) + pos;
+		v[1].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, 0.5f) + pos;
+		v[2].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, 0.5f) + pos;
 
-		v[3].m_position = glm::vec3(0.5f, 0.5f , -0.5f) + pos;
-		v[4].m_position = glm::vec3(-0.5f, 0.5f , -0.5f) + pos;
-		v[5].m_position = glm::vec3(-0.5f, 0.5f , 0.5f) + pos;
+		v[3].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, -0.5f) + pos;
+		v[4].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, -0.5f) + pos;
+		v[5].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, 0.5f) + pos;
 
 		//TextCoords
 		v[0].m_textureCoord = glm::vec2(0.45, v0t);
@@ -309,7 +315,7 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 }
 
-void RenderEngineNS::DecorationMesh::AddGPUData()
+void RenderEngineNS::WaterMesh::AddGPUData()
 {
 	indicesCount = m_indices.size();
 
@@ -338,7 +344,7 @@ void RenderEngineNS::DecorationMesh::AddGPUData()
 	glBindVertexArray(0);
 }
 
-void RenderEngineNS::DecorationMesh::removeGPUData()
+void RenderEngineNS::WaterMesh::removeGPUData()
 {
 	m_indices.clear();
 	m_vertices.clear();
@@ -354,7 +360,7 @@ void RenderEngineNS::DecorationMesh::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
+void RenderEngineNS::WaterMesh::Draw(Shader & p_shader)
 {
 	if (m_indices.size() <= 0) return;
 
@@ -389,9 +395,11 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
 		// now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(p_shader.GetRendererID(), (name + number).c_str()), i);
 
-		glm::vec3 light = glm::vec3(0, 0, 0);
+		glm::vec3 light = glm::vec3(0, 0, time);
 		p_shader.SetVec3("lightPos", light);
+		p_shader.SetUniform1f("time", (float)time);
 
+		time += 10;
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
@@ -405,5 +413,4 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
 	glUseProgram(0);
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
-	
 }

@@ -391,7 +391,8 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
 
 		glm::vec3 light = glm::vec3(0, 0, 0);
 		p_shader.SetVec3("lightPos", light);
-
+		p_shader.SetUniform1f("time", (float)time);
+		time += 25;
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
@@ -401,9 +402,10 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
 
 	//glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, m_indices[0], m_indices.size());
-	glBindVertexArray(0);
-	glUseProgram(0);
+	
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(0);
+	glUseProgram(0);
 	
 }

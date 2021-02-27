@@ -107,11 +107,19 @@ void ChunkNS::Chunk::renderTrees()
 				decoMesh.AddFace(0, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
 				decoMesh.AddFace(1, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
 			}
-
-			decoMesh.AddFace(2, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
-			decoMesh.AddFace(3, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
-			decoMesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
-			decoMesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+			if (j <= 2) {
+				Mesh.AddFace(2, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				Mesh.AddFace(3, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				Mesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				Mesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+			}
+			else {
+				decoMesh.AddFace(2, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				decoMesh.AddFace(3, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				decoMesh.AddFace(4, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+				decoMesh.AddFace(5, Trees[i]->getPos(j), (uint16_t)Trees[i]->getBlock(j)->GetID());
+			}
+		
 		}
 	}
 }
@@ -156,7 +164,7 @@ void Chunk::Draw()
 
 void ChunkNS::Chunk::DrawDecoration()
 {
-	decoMesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
+	decoMesh.Draw(*ResourceManager::Instance().GetShader("LeavesEffect"));
 }
 
 void ChunkNS::Chunk::DrawWater()

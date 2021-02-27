@@ -29,6 +29,7 @@ namespace RenderEngineNS
 
 		int			faceCount = 0;
 		unsigned int indicesCount = 0;
+		int time = 1000;
 
 		std::vector<Vertex>			m_vertices;
 		std::vector<GLuint>			m_indices;

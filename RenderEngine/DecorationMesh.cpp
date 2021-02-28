@@ -22,7 +22,7 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 	++faceCount;
 	Vertex v[6];
 
-	_tex -= 6;
+	_tex -= 7;
 
 
 	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
@@ -304,6 +304,98 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 		}
 
 		break;
+	case 6: //Grass
+
+		v[0].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
+		v[1].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
+		v[2].m_position = glm::vec3(0.25f, 0.2f, -0.25f) + pos;
+
+		v[3].m_position = glm::vec3(-0.25f, -1.0f, 0.25f) + pos;
+		v[4].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
+		v[5].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
+
+		//TextCoords
+		v[0].m_textureCoord = glm::vec2(1, -0.32);
+		v[1].m_textureCoord = glm::vec2(0.55, 0);
+		v[2].m_textureCoord = glm::vec2(1, 0);
+
+		v[3].m_textureCoord = glm::vec2(1, -0.32);
+		v[4].m_textureCoord = glm::vec2(0.55, -0.32);
+		v[5].m_textureCoord = glm::vec2(0.55, 0);
+
+
+		//Normals
+		v[0].m_normal = glm::vec3(-0.92, 0, 0);
+		v[1].m_normal = glm::vec3(-0.92, 0, 0);
+		v[2].m_normal = glm::vec3(-0.92, 0, 0);
+
+		v[3].m_normal = glm::vec3(-0.92, 0, 0);
+		v[4].m_normal = glm::vec3(-0.92, 0, 0);
+		v[5].m_normal = glm::vec3(-0.92, 0, 0);
+
+		m_indices.insert(m_indices.end(),
+			{
+				indicesCount,
+				indicesCount + 1,
+				indicesCount + 2,
+				indicesCount + 2,
+				indicesCount + 3,
+				indicesCount
+			});
+		indicesCount += 4;
+
+		for (int i = 0; i < 6; ++i)
+		{
+			m_vertices.push_back(v[i]);
+		}
+
+		break;
+	case 7: //Grass
+
+		v[0].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
+		v[1].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
+		v[2].m_position = glm::vec3(0.25f, 0.2f, -0.25f) + pos;
+
+		v[3].m_position = glm::vec3(-0.25f, -1.0f, 0.25f) + pos;
+		v[4].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
+		v[5].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
+
+		//TextCoords
+		v[0].m_textureCoord = glm::vec2(1, -0.32);
+		v[1].m_textureCoord = glm::vec2(0.55, 0);
+		v[2].m_textureCoord = glm::vec2(1, 0);
+
+		v[3].m_textureCoord = glm::vec2(1, -0.32);
+		v[4].m_textureCoord = glm::vec2(0.55, -0.32);
+		v[5].m_textureCoord = glm::vec2(0.55, 0);
+
+
+		//Normals
+		v[0].m_normal = glm::vec3(-0.92, 0, 0);
+		v[1].m_normal = glm::vec3(-0.92, 0, 0);
+		v[2].m_normal = glm::vec3(-0.92, 0, 0);
+
+		v[3].m_normal = glm::vec3(-0.92, 0, 0);
+		v[4].m_normal = glm::vec3(-0.92, 0, 0);
+		v[5].m_normal = glm::vec3(-0.92, 0, 0);
+
+		m_indices.insert(m_indices.end(),
+			{
+				indicesCount,
+				indicesCount + 1,
+				indicesCount + 2,
+				indicesCount + 2,
+				indicesCount + 3,
+				indicesCount
+			});
+		indicesCount += 4;
+
+		for (int i = 0; i < 6; ++i)
+		{
+			m_vertices.push_back(v[i]);
+		}
+
+		break;
 	}
 
 
@@ -354,7 +446,7 @@ void RenderEngineNS::DecorationMesh::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
+void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_time)
 {
 	if (m_indices.size() <= 0) return;
 
@@ -391,7 +483,8 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader)
 
 		glm::vec3 light = glm::vec3(0, 0, 0);
 		p_shader.SetVec3("lightPos", light);
-		p_shader.SetUniform1f("time", (float)time);
+		
+		p_shader.SetUniform1f("time", p_time);
 		time += 25;
 		// and finally bind the texture
 

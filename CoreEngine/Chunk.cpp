@@ -25,6 +25,7 @@ void ChunkNS::Chunk::fillChunk()
 {
 	m_treeCount = 0;
 	m_waterCount = 0;
+	m_grassCount = 0;
 	
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
@@ -70,6 +71,12 @@ void ChunkNS::Chunk::fillChunk()
 			glm::ivec3 newPos = glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z);
 			Trees[m_treeCount] = Trees[m_treeCount] == nullptr ? new Tree(newPos) : Trees[m_treeCount]->moveTo(newPos);
 			m_treeCount++;
+		}
+		else if (ind < 0.95  && ind > 0.25 && blocksInd > 10) {
+			glm::ivec3 newPos = glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z);
+			grassBlocks[m_grassCount] = Block(ID::Weeds, true, true);
+			grassBlocksPosition[m_grassCount] = newPos;
+			m_grassCount++;
 		}
 	}
 
@@ -122,6 +129,11 @@ void ChunkNS::Chunk::renderTrees()
 		
 		}
 	}
+	 
+	for (unsigned int i = 0; i < m_grassCount; i++) {
+		decoMesh.AddFace(6, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
+		decoMesh.AddFace(7, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
+	}
 }
 
 void ChunkNS::Chunk::renderWater()
@@ -157,19 +169,20 @@ Chunk::~Chunk()
 	//delete []blocksPosition;
 }
 
-void Chunk::Draw()
+void Chunk::Draw(float p_time)
 {
-	Mesh.Draw(*ResourceManager::Instance().GetShader("Nano"));
+	
+	Mesh.Draw(*ResourceManager::Instance().GetShader("Nano"), p_time);
 }
 
-void ChunkNS::Chunk::DrawDecoration()
+void ChunkNS::Chunk::DrawDecoration(float p_time)
 {
-	decoMesh.Draw(*ResourceManager::Instance().GetShader("LeavesEffect"));
+	decoMesh.Draw(*ResourceManager::Instance().GetShader("LeavesEffect"), p_time);
 }
 
-void ChunkNS::Chunk::DrawWater()
+void ChunkNS::Chunk::DrawWater(float p_time)
 {
-	waterMesh.Draw(*ResourceManager::Instance().GetShader("WaterEffect"));
+	waterMesh.Draw(*ResourceManager::Instance().GetShader("WaterEffect"), p_time);
 }
 
 

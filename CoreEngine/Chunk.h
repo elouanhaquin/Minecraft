@@ -42,6 +42,9 @@ namespace ChunkNS
 		Block		waterBlocks[DECO_BLOCKS_MAX];
 		glm::ivec3	waterBlocksPosition[DECO_BLOCKS_MAX];
 
+		Block		grassBlocks[DECO_BLOCKS_MAX];
+		glm::ivec3	grassBlocksPosition[DECO_BLOCKS_MAX];
+
 		Tree* Trees[DECO_BLOCKS_MAX];
 
 		Face chunkFace;
@@ -49,6 +52,7 @@ namespace ChunkNS
 		int m_seed;
 		int m_treeCount;
 		int m_waterCount;
+		int m_grassCount;
 		float ind;
 
 		SimplexNoise simplex;
@@ -86,9 +90,9 @@ namespace ChunkNS
 		void RenderFace();
 		void updateChunk();
 		void AddFace(Face& _faceToDraw, glm::vec3 _pos, ID _id );
-		void Draw();
-		void DrawDecoration();
-		void DrawWater();
+		void Draw(float p_time);
+		void DrawDecoration(float p_time);
+		void DrawWater(float p_time);
 		void CheckDirty();
 		void SetChunksNeighbour( Chunk* p_left, Chunk* p_right, Chunk*  p_top, Chunk* p_bot, Chunk*  p_front, Chunk* p_back);
 

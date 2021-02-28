@@ -173,15 +173,15 @@ void World::Draw()
 {
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->Draw();
+		chunks[i]->Draw(TimeNS::Time::time);
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->DrawWater();
+		chunks[i]->DrawWater(TimeNS::Time::time);
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->DrawDecoration();
+		chunks[i]->DrawDecoration(TimeNS::Time::time);
 	}
 
 }

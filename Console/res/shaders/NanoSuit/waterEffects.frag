@@ -16,7 +16,7 @@ void main()
 
   float diff = max(dot(norm, lightDir),0.55);
   vec3 diffuse = diff * vec3(1,1,1);
-  vec4 result = vec4(diffuse,1.0) * 0.7;
+  vec4 result = vec4(diffuse,1.0) * 0.8;
 
 //FragColor = vec4(normal,1);
 //FragColor *= vec4((normal + diffuse), 1) * 0.9;

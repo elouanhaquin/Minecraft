@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include <BlockGeometry.h>
+#include <Time.h>
 #include <Vertex.h>
 #include <Texture.h>
 #include <Shader.h>
@@ -23,7 +24,7 @@ namespace RenderEngineNS
 		void AddGPUData();
 		void removeGPUData();
 
-		void Draw(Shader& p_shader);
+		void Draw(Shader& p_shader, float p_time);
 		
 	private:
 

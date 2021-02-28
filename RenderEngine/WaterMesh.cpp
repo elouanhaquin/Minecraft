@@ -29,7 +29,7 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 
 	float reductionForWater = 0.0f;
 	if (_tex == 3)
-		reductionForWater = 0.2f;
+		reductionForWater = 0.05f;
 
 	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
 	float v1t = (float)((1 + _tex) * 0.33f) - 0.05f;
@@ -360,7 +360,7 @@ void RenderEngineNS::WaterMesh::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::WaterMesh::Draw(Shader & p_shader)
+void RenderEngineNS::WaterMesh::Draw(Shader & p_shader, float p_time)
 {
 	if (m_indices.size() <= 0) return;
 
@@ -395,11 +395,10 @@ void RenderEngineNS::WaterMesh::Draw(Shader & p_shader)
 		// now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(p_shader.GetRendererID(), (name + number).c_str()), i);
 
-		glm::vec3 light = glm::vec3(0, 0, time);
+		glm::vec3 light = glm::vec3(0, 0, 0);
 		p_shader.SetVec3("lightPos", light);
-		p_shader.SetUniform1f("time", (float)time);
+		p_shader.SetUniform1f("time", p_time);
 
-		time += 10;
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);

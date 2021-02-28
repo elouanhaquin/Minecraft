@@ -15,10 +15,12 @@ namespace BlockNS
 		Sand = 4,
 		Iron = 5,
 		BedRock = 6,
-		Leaves = 7,
-		Coal = 8,
-		Water = 9, 
-		Weeds = 10,
+		Weeds = 7,
+		Leaves = 8,
+		Water = 9,
+		Coal = 10,
+	 
+		
 	
 
 

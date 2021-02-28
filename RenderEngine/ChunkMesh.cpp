@@ -366,7 +366,7 @@ void ChunkMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 	//m_textures.insert(m_textures.end(), bg.getTextures().begin(), bg.getTextures().end());
 
 }
-void ChunkMesh::Draw(Shader& p_shader)
+void ChunkMesh::Draw(Shader& p_shader, float p_time)
 {
 	// bind appropriate textures
 	unsigned int diffuseNr = 1;

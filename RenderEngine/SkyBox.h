@@ -1,33 +1,28 @@
 #pragma once
-
+#include "RenderEngineAPI.h"
 #include "stdafx.h"
 #include <BlockGeometry.h>
-#include <Time.h>
 #include <Vertex.h>
 #include <Texture.h>
 #include <Shader.h>
 #include <atomic>
 
-#include "RenderEngineAPI.h"
-
 namespace RenderEngineNS
 {
-	class RENDERENGINE_API DecorationMesh
+	class RENDERENGINE_API SkyBox
 	{
+		public:
+			SkyBox();
+			~SkyBox();
 
-	public:
-		DecorationMesh();
-		~DecorationMesh();
+			void AddFace(int _faceType, glm::vec3 pos, uint16_t _tex);
 
-		void AddFace(int _faceType, glm::vec3 pos, uint16_t _tex);
+			void AddGPUData();
+			void removeGPUData();
 
-		void AddGPUData();
-		void removeGPUData();
+			void Draw(Shader& p_shader, float p_time);
 
-		void Draw(Shader& p_shader, float p_time);
-		
 	private:
-
 		int			faceCount = 0;
 		unsigned int indicesCount = 0;
 
@@ -37,4 +32,5 @@ namespace RenderEngineNS
 
 		unsigned int				m_vao, m_vbo, m_ebo;
 	};
+
 }

@@ -167,10 +167,16 @@ void World::Render()
 		checkNeighboursChunk();
 		chunks[i]->RenderFace();
 	}
+	for (int i = 0; i < 6; i++)
+		m_skyBox.AddFace(i, glm::ivec3(0, 0, 0), i);
+
+	m_skyBox.AddGPUData();
 }
 
-void World::Draw()
+void World::Draw(Shader& p_shader)
 {
+	m_skyBox.Draw(p_shader, TimeNS::Time::time);
+
 	for (int i = 0; i < chunks.size(); ++i)
 	{
 		chunks[i]->Draw(TimeNS::Time::time);
@@ -183,6 +189,8 @@ void World::Draw()
 	{
 		chunks[i]->DrawDecoration(TimeNS::Time::time);
 	}
+
+
 
 }
 

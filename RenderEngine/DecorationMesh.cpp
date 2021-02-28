@@ -577,7 +577,6 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_time)
 		p_shader.SetVec3("lightPos", light);
 		
 		p_shader.SetUniform1f("time", p_time);
-		time += 25;
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);

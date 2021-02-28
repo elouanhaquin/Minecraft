@@ -9,7 +9,7 @@ using namespace RenderEngineNS;
 namespace CoreEngineNS
 {
 	//Singleton
-	class ResourceManager
+	class  ResourceManager
 	{
 	public:
 		static ResourceManager& Instance();

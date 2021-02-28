@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreEngineAPI.h"
+#include "SkyBox.h"
 #include <memory>
 #include <Chunk.h>
 #include <atomic>
@@ -26,10 +27,11 @@ namespace WorldNS
 		void checkNeighboursChunk();
 		
 		void Render();
-		void Draw();
+		void Draw(Shader& p_shader);
 
 		inline int getWidth() { return worldWidth; }
 		Chunk* getChunkAtPos(const glm::vec3& p_pos);
+		
 
 		uint16_t			   From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
 		std::array<int16_t, 3> From1Dto3D(uint16_t p_index);
@@ -40,6 +42,8 @@ namespace WorldNS
 		int worldDimension;
 		int worldWidth;
 		int worldHeight;
+
+		SkyBox m_skyBox;
 
 		std::vector<Chunk*> chunks;
 

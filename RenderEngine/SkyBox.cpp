@@ -1,18 +1,15 @@
 #include "stdafx.h"
-#include "WaterMesh.h"
+#include "SkyBox.h"
 
-
-
-
-RenderEngineNS::WaterMesh::WaterMesh()
+RenderEngineNS::SkyBox::SkyBox()
 {
 	indicesCount = 0;
 	faceCount = 0;
 
-	m_textures.push_back(Texture(2, "DecorationAtlas"));
+	m_textures.push_back(Texture(4, "Sky"));
 }
 
-RenderEngineNS::WaterMesh::~WaterMesh()
+RenderEngineNS::SkyBox::~SkyBox()
 {
 	m_indices.clear();
 	m_vertices.clear();
@@ -20,40 +17,32 @@ RenderEngineNS::WaterMesh::~WaterMesh()
 	faceCount = 0;
 }
 
-void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
+void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
 {
 	++faceCount;
 	Vertex v[6];
 
-	_tex -= 6;
-
-	float reductionForWater = 0.0f;
-	if (_tex == 3)
-		reductionForWater = 0.05f;
-
-	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
-	float v1t = (float)((1 + _tex) * 0.33f) - 0.05f;
 
 	switch (_faceType)
 	{
 	case 0: //Top
 
-		v[0].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, -0.5f) + pos;
-		v[1].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, 0.5f) + pos;
-		v[2].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, 0.5f) + pos;
+		v[0].m_position = glm::vec3(-500.0f, -500.0f , 500.0f) + pos;
+		v[1].m_position = glm::vec3(500.0f, -500.0f  , -500.0f) + pos;
+		v[2].m_position = glm::vec3(-500.0f, -500.0f  , -500.0f) + pos;
 
-		v[3].m_position = glm::vec3(0.5f, 0.5f - reductionForWater, -0.5f) + pos;
-		v[4].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, -0.5f) + pos;
-		v[5].m_position = glm::vec3(-0.5f, 0.5f - reductionForWater, 0.5f) + pos;
+		v[3].m_position = glm::vec3(-500.0f, -500.0f , 500.0f) + pos;
+		v[4].m_position = glm::vec3(500.0f, -500.0f , 500.0f) + pos;
+		v[5].m_position = glm::vec3(500.0f, -500.0f , -500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(0.45, v0t);
-		v[1].m_textureCoord = glm::vec2(0, v1t);
-		v[2].m_textureCoord = glm::vec2(0.45, v1t);
+		v[0].m_textureCoord = glm::vec2(0.48, 0);
+		v[1].m_textureCoord = glm::vec2(0, 1);
+		v[2].m_textureCoord = glm::vec2(0.48, 1);
 
-		v[3].m_textureCoord = glm::vec2(0.45, v0t);
-		v[4].m_textureCoord = glm::vec2(0, v0t);
-		v[5].m_textureCoord = glm::vec2(0, v1t);
+		v[3].m_textureCoord = glm::vec2(0.48, 0);
+		v[4].m_textureCoord = glm::vec2(0, 0);
+		v[5].m_textureCoord = glm::vec2(0, 1);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, -0.99, 0);
@@ -84,22 +73,22 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 		break;
 	case 1: //Bottom
 
-		v[0].m_position = glm::vec3(-0.5f, -0.5f, -0.5f) + pos;
-		v[1].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
-		v[2].m_position = glm::vec3(-0.5f, -0.5f, 0.5f) + pos;
+		v[0].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
+		v[1].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
+		v[2].m_position = glm::vec3(-500.0f, 500.0f, 500.0f) + pos;
 
-		v[3].m_position = glm::vec3(-0.5f, -0.5f, -0.5f) + pos;
-		v[4].m_position = glm::vec3(0.5f, -0.5f, -0.5f) + pos;
-		v[5].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
+		v[3].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
+		v[4].m_position = glm::vec3(500.0f, 500.0f, -500.0f) + pos;
+		v[5].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, v0t);
-		v[1].m_textureCoord = glm::vec2(0.52, v1t);
-		v[2].m_textureCoord = glm::vec2(1, v1t);
+		v[0].m_textureCoord = glm::vec2(1, 0);
+		v[1].m_textureCoord = glm::vec2(500.02, 1);
+		v[2].m_textureCoord = glm::vec2(1, 1);
 
-		v[3].m_textureCoord = glm::vec2(1, v0t);
-		v[4].m_textureCoord = glm::vec2(0.52, v0t);
-		v[5].m_textureCoord = glm::vec2(0.52, v1t);
+		v[3].m_textureCoord = glm::vec2(1, 0);
+		v[4].m_textureCoord = glm::vec2(500.02, 0);
+		v[5].m_textureCoord = glm::vec2(500.02, 1);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, -0.1, 0);
@@ -129,22 +118,22 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 		break;
 	case 2: //Front
 
-		v[0].m_position = glm::vec3(0.5f, 0.5f, 0.5f) + pos;
-		v[1].m_position = glm::vec3(-0.5f, -0.5f, 0.5f) + pos;
-		v[2].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
+		v[0].m_position = glm::vec3(500.0f, -500.0f, 500.0f) + pos;
+		v[1].m_position = glm::vec3(-500.0f, 500.0f, 500.0f) + pos;
+		v[2].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
 
-		v[3].m_position = glm::vec3(0.5f, 0.5f, 0.5f) + pos;
-		v[4].m_position = glm::vec3(-0.5f, 0.5f, 0.5f) + pos;
-		v[5].m_position = glm::vec3(-0.5f, -0.5f, 0.5f) + pos;
+		v[3].m_position = glm::vec3(500.0f, -500.0f, 500.0f) + pos;
+		v[4].m_position = glm::vec3(-500.0f, -500.0f, 500.0f) + pos;
+		v[5].m_position = glm::vec3(-500.0f, 500.0f, 500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, v1t);
-		v[1].m_textureCoord = glm::vec2(0.55, v0t);
-		v[2].m_textureCoord = glm::vec2(1, v0t);
+		v[0].m_textureCoord = glm::vec2(1, 1);
+		v[1].m_textureCoord = glm::vec2(500.05, 0);
+		v[2].m_textureCoord = glm::vec2(1, 0);
 
-		v[3].m_textureCoord = glm::vec2(1, v1t);
-		v[4].m_textureCoord = glm::vec2(0.55, v1t);
-		v[5].m_textureCoord = glm::vec2(0.55, v0t);
+		v[3].m_textureCoord = glm::vec2(1, 1);
+		v[4].m_textureCoord = glm::vec2(500.05, 1);
+		v[5].m_textureCoord = glm::vec2(500.05, 0);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, 0, -0.90);
@@ -174,22 +163,22 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 		break;
 	case 3: //Back
 
-		v[0].m_position = glm::vec3(-0.5f, 0.5f, -0.5f) + pos;
-		v[1].m_position = glm::vec3(0.5f, -0.5f, -0.5f) + pos;
-		v[2].m_position = glm::vec3(-0.5f, -0.5f, -0.5f) + pos;
+		v[0].m_position = glm::vec3(-500.0f, -500.0f, -500.0f) + pos;
+		v[1].m_position = glm::vec3(500.0f, 500.0f, -500.0f) + pos;
+		v[2].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
 
-		v[3].m_position = glm::vec3(-0.5f, 0.5f, -0.5f) + pos;
-		v[4].m_position = glm::vec3(0.5f, 0.5f, -0.5f) + pos;
-		v[5].m_position = glm::vec3(0.5f, -0.5f, -0.5f) + pos;
+		v[3].m_position = glm::vec3(-500.0f, -500.0f, -500.0f) + pos;
+		v[4].m_position = glm::vec3(500.0f, -500.0f, -500.0f) + pos;
+		v[5].m_position = glm::vec3(500.0f, 500.0f, -500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, v1t);
-		v[1].m_textureCoord = glm::vec2(0.55, v0t);
-		v[2].m_textureCoord = glm::vec2(1, v0t);
+		v[0].m_textureCoord = glm::vec2(1, 1);
+		v[1].m_textureCoord = glm::vec2(500.05, 0);
+		v[2].m_textureCoord = glm::vec2(1, 0);
 
-		v[3].m_textureCoord = glm::vec2(1, v1t);
-		v[4].m_textureCoord = glm::vec2(0.55, v1t);
-		v[5].m_textureCoord = glm::vec2(0.55, v0t);
+		v[3].m_textureCoord = glm::vec2(1, 1);
+		v[4].m_textureCoord = glm::vec2(500.05, 1);
+		v[5].m_textureCoord = glm::vec2(500.05, 0);
 
 
 		//Normals
@@ -220,22 +209,22 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 		break;
 	case 4: //Right
 
-		v[0].m_position = glm::vec3(0.5f, 0.5f, -0.5f) + pos;
-		v[1].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
-		v[2].m_position = glm::vec3(0.5f, -0.5f, -0.5f) + pos;
+		v[0].m_position = glm::vec3(500.0f, -500.0f, -500.0f) + pos;
+		v[1].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
+		v[2].m_position = glm::vec3(500.0f, 500.0f, -500.0f) + pos;
 
-		v[3].m_position = glm::vec3(0.5f, 0.5f, -0.5f) + pos;
-		v[4].m_position = glm::vec3(0.5f, 0.5f, 0.5f) + pos;
-		v[5].m_position = glm::vec3(0.5f, -0.5f, 0.5f) + pos;
+		v[3].m_position = glm::vec3(500.0f, -500.0f, -500.0f) + pos;
+		v[4].m_position = glm::vec3(500.0f, -500.0f, 500.0f) + pos;
+		v[5].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, v1t);
-		v[1].m_textureCoord = glm::vec2(0.55, v0t);
-		v[2].m_textureCoord = glm::vec2(1, v0t);
+		v[0].m_textureCoord = glm::vec2(1, 1);
+		v[1].m_textureCoord = glm::vec2(500.05, 0);
+		v[2].m_textureCoord = glm::vec2(1, 0);
 
-		v[3].m_textureCoord = glm::vec2(1, v1t);
-		v[4].m_textureCoord = glm::vec2(0.55, v1t);
-		v[5].m_textureCoord = glm::vec2(0.55, v0t);
+		v[3].m_textureCoord = glm::vec2(1, 1);
+		v[4].m_textureCoord = glm::vec2(500.05, 1);
+		v[5].m_textureCoord = glm::vec2(500.05, 0);
 
 
 		//Normals
@@ -266,22 +255,22 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 		break;
 	case 5: //Left
 
-		v[0].m_position = glm::vec3(-0.5f, 0.5f, 0.5f) + pos;
-		v[1].m_position = glm::vec3(-0.5f, -0.5f, -0.5f) + pos;
-		v[2].m_position = glm::vec3(-0.5f, -0.5f, 0.5f) + pos;
+		v[0].m_position = glm::vec3(-500.0f, -500.0f, 500.0f) + pos;
+		v[1].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
+		v[2].m_position = glm::vec3(-500.0f, 500.0f, 500.0f) + pos;
 
-		v[3].m_position = glm::vec3(-0.5f, 0.5f, 0.5f) + pos;
-		v[4].m_position = glm::vec3(-0.5f, 0.5f, -0.5f) + pos;
-		v[5].m_position = glm::vec3(-0.5f, -0.5f, -0.5f) + pos;
+		v[3].m_position = glm::vec3(-500.0f, -500.0f, 500.0f) + pos;
+		v[4].m_position = glm::vec3(-500.0f, -500.0f, -500.0f) + pos;
+		v[5].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, v1t);
-		v[1].m_textureCoord = glm::vec2(0.55, v0t);
-		v[2].m_textureCoord = glm::vec2(1, v0t);
+		v[0].m_textureCoord = glm::vec2(1, 1);
+		v[1].m_textureCoord = glm::vec2(500.05, 0);
+		v[2].m_textureCoord = glm::vec2(1, 0);
 
-		v[3].m_textureCoord = glm::vec2(1, v1t);
-		v[4].m_textureCoord = glm::vec2(0.55, v1t);
-		v[5].m_textureCoord = glm::vec2(0.55, v0t);
+		v[3].m_textureCoord = glm::vec2(1, 1);
+		v[4].m_textureCoord = glm::vec2(500.05, 1);
+		v[5].m_textureCoord = glm::vec2(500.05, 0);
 
 
 		//Normals
@@ -311,11 +300,9 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 
 		break;
 	}
-
-
 }
 
-void RenderEngineNS::WaterMesh::AddGPUData()
+void RenderEngineNS::SkyBox::AddGPUData()
 {
 	indicesCount = m_indices.size();
 
@@ -344,11 +331,12 @@ void RenderEngineNS::WaterMesh::AddGPUData()
 	glBindVertexArray(0);
 }
 
-void RenderEngineNS::WaterMesh::removeGPUData()
+void RenderEngineNS::SkyBox::removeGPUData()
 {
 	m_indices.clear();
 	m_vertices.clear();
 	indicesCount = 0;
+
 
 	glDeleteVertexArrays(1, &m_vao);
 	glDeleteBuffers(1, &m_vbo);
@@ -359,8 +347,9 @@ void RenderEngineNS::WaterMesh::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::WaterMesh::Draw(Shader & p_shader, float p_time)
+void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 {
+
 	if (m_indices.size() <= 0) return;
 
 	unsigned int diffuseNr = 1;
@@ -396,8 +385,8 @@ void RenderEngineNS::WaterMesh::Draw(Shader & p_shader, float p_time)
 
 		glm::vec3 light = glm::vec3(0, 0, 0);
 		p_shader.SetVec3("lightPos", light);
-		p_shader.SetUniform1f("time", p_time);
 
+		p_shader.SetUniform1f("time", p_time);
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
@@ -407,8 +396,9 @@ void RenderEngineNS::WaterMesh::Draw(Shader & p_shader, float p_time)
 
 	//glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, m_indices[0], m_indices.size());
-	glBindVertexArray(0);
-	glUseProgram(0);
+
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(0);
+	glUseProgram(0);
 }

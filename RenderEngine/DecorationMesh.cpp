@@ -304,34 +304,34 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 		}
 
 		break;
-	case 6: //Grass
+	case 6: //Grass Right
 
-		v[0].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
+		v[0].m_position = glm::vec3(0.25f, -0.8f, -0.25f) + pos;
 		v[1].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
 		v[2].m_position = glm::vec3(0.25f, 0.2f, -0.25f) + pos;
 
-		v[3].m_position = glm::vec3(-0.25f, -1.0f, 0.25f) + pos;
-		v[4].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
+		v[3].m_position = glm::vec3(0.25f, -0.8f, -0.25f) + pos;
+		v[4].m_position = glm::vec3(-0.25f, -0.8f, 0.25f) + pos;
 		v[5].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
 
 		//TextCoords
 		v[0].m_textureCoord = glm::vec2(1, -0.32);
-		v[1].m_textureCoord = glm::vec2(0.55, 0);
-		v[2].m_textureCoord = glm::vec2(1, 0);
+		v[1].m_textureCoord = glm::vec2(0.55, -0.02);
+		v[2].m_textureCoord = glm::vec2(1, -0.02);
 
 		v[3].m_textureCoord = glm::vec2(1, -0.32);
 		v[4].m_textureCoord = glm::vec2(0.55, -0.32);
-		v[5].m_textureCoord = glm::vec2(0.55, 0);
+		v[5].m_textureCoord = glm::vec2(0.55, -0.02);
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(-0.92, 0, 0);
-		v[1].m_normal = glm::vec3(-0.92, 0, 0);
-		v[2].m_normal = glm::vec3(-0.92, 0, 0);
+		v[0].m_normal = glm::vec3(0.80, 0, 0);
+		v[1].m_normal = glm::vec3(0.80, 0, 0);
+		v[2].m_normal = glm::vec3(0.80, 0, 0);
 
-		v[3].m_normal = glm::vec3(-0.92, 0, 0);
-		v[4].m_normal = glm::vec3(-0.92, 0, 0);
-		v[5].m_normal = glm::vec3(-0.92, 0, 0);
+		v[3].m_normal = glm::vec3(0.80, 0, 0);
+		v[4].m_normal = glm::vec3(0.80, 0, 0);
+		v[5].m_normal = glm::vec3(0.80, 0, 0);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -350,34 +350,126 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 		}
 
 		break;
-	case 7: //Grass
+	case 7: //Grass Right2
 
-		v[0].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
-		v[1].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
-		v[2].m_position = glm::vec3(0.25f, 0.2f, -0.25f) + pos;
+		v[0].m_position = glm::vec3(-0.25f, -0.8f, 0.25f) + pos;
+		v[1].m_position = glm::vec3(0.25f, 0.2f, -0.25f) + pos;
+		v[2].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
 
-		v[3].m_position = glm::vec3(-0.25f, -1.0f, 0.25f) + pos;
-		v[4].m_position = glm::vec3(0.25f, -1.0f, -0.25f) + pos;
-		v[5].m_position = glm::vec3(-0.25f, 0.2f, 0.25f) + pos;
+		v[3].m_position = glm::vec3(-0.25f, -0.8f, 0.25f) + pos;
+		v[4].m_position = glm::vec3(0.25f, -0.8f, -0.25f) + pos;
+		v[5].m_position = glm::vec3(0.25f, 0.2f, -0.25f) + pos;
 
 		//TextCoords
 		v[0].m_textureCoord = glm::vec2(1, -0.32);
-		v[1].m_textureCoord = glm::vec2(0.55, 0);
-		v[2].m_textureCoord = glm::vec2(1, 0);
+		v[1].m_textureCoord = glm::vec2(0.55, -0.02);
+		v[2].m_textureCoord = glm::vec2(1, -0.02);
 
 		v[3].m_textureCoord = glm::vec2(1, -0.32);
 		v[4].m_textureCoord = glm::vec2(0.55, -0.32);
-		v[5].m_textureCoord = glm::vec2(0.55, 0);
+		v[5].m_textureCoord = glm::vec2(0.55, -0.02);
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(-0.92, 0, 0);
-		v[1].m_normal = glm::vec3(-0.92, 0, 0);
-		v[2].m_normal = glm::vec3(-0.92, 0, 0);
+		v[0].m_normal = glm::vec3(0.80, 0, 0);
+		v[1].m_normal = glm::vec3(0.80, 0, 0);
+		v[2].m_normal = glm::vec3(0.80, 0, 0);
 
-		v[3].m_normal = glm::vec3(-0.92, 0, 0);
-		v[4].m_normal = glm::vec3(-0.92, 0, 0);
-		v[5].m_normal = glm::vec3(-0.92, 0, 0);
+		v[3].m_normal = glm::vec3(0.80, 0, 0);
+		v[4].m_normal = glm::vec3(0.80, 0, 0);
+		v[5].m_normal = glm::vec3(0.80, 0, 0);
+
+		m_indices.insert(m_indices.end(),
+			{
+				indicesCount,
+				indicesCount + 1,
+				indicesCount + 2,
+				indicesCount + 2,
+				indicesCount + 3,
+				indicesCount
+			});
+		indicesCount += 4;
+
+		for (int i = 0; i < 6; ++i)
+		{
+			m_vertices.push_back(v[i]);
+		}
+
+		break;
+	case 8: //Grass Left
+
+		v[0].m_position = glm::vec3(0.25f, -0.8f, 0.25f) + pos;
+		v[1].m_position = glm::vec3(-0.25f, 0.2f, -0.25f) + pos;
+		v[2].m_position = glm::vec3(0.25f, 0.2f, 0.25f) + pos;
+
+		v[3].m_position = glm::vec3(0.25f, -0.8f, 0.25f) + pos;
+		v[4].m_position = glm::vec3(-0.25f, -0.8f, -0.25f) + pos;
+		v[5].m_position = glm::vec3(-0.25f, 0.2f, -0.25f) + pos;
+
+		//TextCoords
+		v[0].m_textureCoord = glm::vec2(1, -0.32);
+		v[1].m_textureCoord = glm::vec2(0.55, -0.02);
+		v[2].m_textureCoord = glm::vec2(1, -0.02);
+
+		v[3].m_textureCoord = glm::vec2(1, -0.32);
+		v[4].m_textureCoord = glm::vec2(0.55, -0.32);
+		v[5].m_textureCoord = glm::vec2(0.55, -0.02);
+
+
+		//Normals
+		v[0].m_normal = glm::vec3(0.80, 0, 0);
+		v[1].m_normal = glm::vec3(0.80, 0, 0);
+		v[2].m_normal = glm::vec3(0.80, 0, 0);
+
+		v[3].m_normal = glm::vec3(0.80, 0, 0);
+		v[4].m_normal = glm::vec3(0.80, 0, 0);
+		v[5].m_normal = glm::vec3(0.80, 0, 0);
+
+		m_indices.insert(m_indices.end(),
+			{
+				indicesCount,
+				indicesCount + 1,
+				indicesCount + 2,
+				indicesCount + 2,
+				indicesCount + 3,
+				indicesCount
+			});
+		indicesCount += 4;
+
+		for (int i = 0; i < 6; ++i)
+		{
+			m_vertices.push_back(v[i]);
+		}
+
+		break;
+	case 9: //Grass left 2
+
+		v[0].m_position = glm::vec3(-0.25f, -0.8f, -0.25f) + pos;
+		v[1].m_position = glm::vec3(0.25f, 0.2f, 0.25f) + pos;
+		v[2].m_position = glm::vec3(-0.25f, 0.2f, -0.25f) + pos;
+
+		v[3].m_position = glm::vec3(-0.25f, -0.8f, -0.25f) + pos;
+		v[4].m_position = glm::vec3(0.25f, -0.8f, 0.25f) + pos;
+		v[5].m_position = glm::vec3(0.25f, 0.2f, 0.25f) + pos;
+
+		//TextCoords
+		v[0].m_textureCoord = glm::vec2(1, -0.32);
+		v[1].m_textureCoord = glm::vec2(0.55, -0.02);
+		v[2].m_textureCoord = glm::vec2(1, -0.02);
+
+		v[3].m_textureCoord = glm::vec2(1, -0.32);
+		v[4].m_textureCoord = glm::vec2(0.55, -0.32);
+		v[5].m_textureCoord = glm::vec2(0.55, -0.02);
+
+
+		//Normals
+		v[0].m_normal = glm::vec3(0.80, 0, 0);
+		v[1].m_normal = glm::vec3(0.80, 0, 0);
+		v[2].m_normal = glm::vec3(0.80, 0, 0);
+
+		v[3].m_normal = glm::vec3(0.80, 0, 0);
+		v[4].m_normal = glm::vec3(0.80, 0, 0);
+		v[5].m_normal = glm::vec3(0.80, 0, 0);
 
 		m_indices.insert(m_indices.end(),
 			{

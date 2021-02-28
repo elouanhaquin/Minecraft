@@ -133,6 +133,8 @@ void ChunkNS::Chunk::renderTrees()
 	for (unsigned int i = 0; i < m_grassCount; i++) {
 		decoMesh.AddFace(6, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
 		decoMesh.AddFace(7, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
+		decoMesh.AddFace(8, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
+		decoMesh.AddFace(9, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
 	}
 }
 

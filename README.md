@@ -28,11 +28,14 @@ Et ce grâce à de nombreuses optimisations.
 
 J'ai donc repris entièrement la génération du Chunk, ajouté un système optimisé de vérification de voisins (Voir si un bloc est occludé par un autre).
 Ensuite je me suis attaqué à implémenter différentes textures, j'ai eu quelques soucis sur cette partie, mais après avoir implémenté un atlas de textures, tout allait mieux.
-Cette partie fonctionnelle, j'ai voulu rendre le jeu plus vivant en y implémentant des "décorations". J'ai donc ajouté des arbres, et de l'eau.
+Cette partie fonctionnelle, j'ai voulu rendre le jeu plus vivant en y implémentant des "décorations". J'ai donc ajouté des arbres, de l'eau, de et de l'herbe.
+J'ai ensuite modifié les différents shaders pour rendre le monde plus vivant, en ajoutant un mouevement à l'eau, au feuillage, et aux herbes.
 C'est là où j'en suis aujourd'hui, je suis vraiment content, j'avance vite, et je ne bloque plus sur des problèmes mineurs.  
 
+Mes projets de modifications sont visibles sur le <a href="https://trello.com/b/ZMJIPYXa/minecraft-opengl" rel="nofollow">Trello </a>
 
 J'ai appris beaucoup en reprennant le projet, et dès que je travaille dessus à côté de mes études, je continue de beaucoup apprendre.
 
-### Une capture du projet aujourd'hui
+### Quelques captures du projet aujourd'hui
 ![Minecraft 2021](https://i.ibb.co/ZWk8kD0/sand.jpg)
+![Minecraft 2021](https://i.ibb.co/5MQGRL1/movement.jpg)

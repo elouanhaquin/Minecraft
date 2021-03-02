@@ -188,7 +188,7 @@ void World::Draw(Shader& p_shader)
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->DrawDecoration(TimeNS::Time::time);
+		chunks[i]->DrawDecoration(TimeNS::Time::dayTime, TimeNS::Time::time);
 	}
 
 

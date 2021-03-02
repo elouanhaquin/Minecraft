@@ -19,8 +19,8 @@ void Time::UpdateTime()
 	const double previousTime = time;
 	Time::time = glfwGetTime();
 	Time::deltaTime = time - previousTime;
-	float ti = (glfwGetTime())*0.01f + 360.0f;
-	Time::dayTime = std::sin(ti) + 0.5f;
+	float ti = (glfwGetTime())*0.1f + 360.0f;
+	Time::dayTime = std::sin(ti) + 0.8f;
 }
 
 Time::~Time()

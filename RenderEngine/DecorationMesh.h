@@ -24,7 +24,7 @@ namespace RenderEngineNS
 		void AddGPUData();
 		void removeGPUData();
 
-		void Draw(Shader& p_shader, float p_time);
+		void Draw(Shader& p_shader,float p_dayTime, float p_time);
 		
 	private:
 

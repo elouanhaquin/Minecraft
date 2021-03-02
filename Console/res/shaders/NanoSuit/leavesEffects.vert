@@ -7,11 +7,14 @@ layout (location = 2) in vec2 aTexCoords;
 out vec2 TexCoords;
 out vec3 normal;
 out vec3 FragPos;
+out float oTime;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
+uniform float dayTime;
+
 
 void main()
 {
@@ -26,6 +29,7 @@ void main()
     gl_Position = projection * view * model * vec4(vec3(x, y , z), 1.0);
     FragPos = vec3(model * vec4(aPos, 1.0));
     normal = aNormal;
+    oTime = dayTime;
   }
 
 }

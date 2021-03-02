@@ -50,13 +50,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 		v[5].m_textureCoord = glm::vec2(0, v1t);
 
 		//Normals
-		v[0].m_normal = glm::vec3(0, -0.99, 0);
-		v[1].m_normal = glm::vec3(0, -0.99, 0);
-		v[2].m_normal = glm::vec3(0, -0.99, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0, -0.99, 0);
-		v[4].m_normal = glm::vec3(0, -0.99, 0);
-		v[5].m_normal = glm::vec3(0, -0.99, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 
 		m_indices.insert(m_indices.end(),
@@ -96,13 +96,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 		v[5].m_textureCoord = glm::vec2(0.52, v1t);
 
 		//Normals
-		v[0].m_normal = glm::vec3(0, -0.1, 0);
-		v[1].m_normal = glm::vec3(0, -0.1, 0);
-		v[2].m_normal = glm::vec3(0, -0.1, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0, -0.1, 0);
-		v[4].m_normal = glm::vec3(0, -0.1, 0);
-		v[5].m_normal = glm::vec3(0, -0.1, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -141,13 +141,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 		v[5].m_textureCoord = glm::vec2(0.55, v0t);
 
 		//Normals
-		v[0].m_normal = glm::vec3(0, 0, -0.90);
-		v[1].m_normal = glm::vec3(0, 0, -0.90);
-		v[2].m_normal = glm::vec3(0, 0, -0.90);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0, 0, -0.90);
-		v[4].m_normal = glm::vec3(0, 0, -0.90);
-		v[5].m_normal = glm::vec3(0, 0, -0.90);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -187,13 +187,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(0, 0, -0.95);
-		v[1].m_normal = glm::vec3(0, 0, -0.95);
-		v[2].m_normal = glm::vec3(0, 0, -0.95);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0, 0, -0.95);
-		v[4].m_normal = glm::vec3(0, 0, -0.95);
-		v[5].m_normal = glm::vec3(0, 0, -0.95);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -233,13 +233,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(-0.98, 0, 0);
-		v[1].m_normal = glm::vec3(-0.98, 0, 0);
-		v[2].m_normal = glm::vec3(-0.98, 0, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(-0.98, 0, 0);
-		v[4].m_normal = glm::vec3(-0.98, 0, 0);
-		v[5].m_normal = glm::vec3(-0.98, 0, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -279,13 +279,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(-0.92, 0, 0);
-		v[1].m_normal = glm::vec3(-0.92, 0, 0);
-		v[2].m_normal = glm::vec3(-0.92, 0, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(-0.92, 0, 0);
-		v[4].m_normal = glm::vec3(-0.92, 0, 0);
-		v[5].m_normal = glm::vec3(-0.92, 0, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -325,13 +325,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(0.80, 0, 0);
-		v[1].m_normal = glm::vec3(0.80, 0, 0);
-		v[2].m_normal = glm::vec3(0.80, 0, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0.80, 0, 0);
-		v[4].m_normal = glm::vec3(0.80, 0, 0);
-		v[5].m_normal = glm::vec3(0.80, 0, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -371,13 +371,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(0.80, 0, 0);
-		v[1].m_normal = glm::vec3(0.80, 0, 0);
-		v[2].m_normal = glm::vec3(0.80, 0, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0.80, 0, 0);
-		v[4].m_normal = glm::vec3(0.80, 0, 0);
-		v[5].m_normal = glm::vec3(0.80, 0, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -417,13 +417,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(0.80, 0, 0);
-		v[1].m_normal = glm::vec3(0.80, 0, 0);
-		v[2].m_normal = glm::vec3(0.80, 0, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0.80, 0, 0);
-		v[4].m_normal = glm::vec3(0.80, 0, 0);
-		v[5].m_normal = glm::vec3(0.80, 0, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -463,13 +463,13 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 
 
 		//Normals
-		v[0].m_normal = glm::vec3(0.80, 0, 0);
-		v[1].m_normal = glm::vec3(0.80, 0, 0);
-		v[2].m_normal = glm::vec3(0.80, 0, 0);
+		v[0].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[1].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[2].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
-		v[3].m_normal = glm::vec3(0.80, 0, 0);
-		v[4].m_normal = glm::vec3(0.80, 0, 0);
-		v[5].m_normal = glm::vec3(0.80, 0, 0);
+		v[3].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[4].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
+		v[5].m_normal = glm::vec3(0.72f, 0.72f, 0.72f);
 
 		m_indices.insert(m_indices.end(),
 			{
@@ -538,7 +538,7 @@ void RenderEngineNS::DecorationMesh::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_time)
+void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_dayTime, float p_time)
 {
 	if (m_indices.size() <= 0) return;
 
@@ -572,10 +572,9 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_time)
 
 		// now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(p_shader.GetRendererID(), (name + number).c_str()), i);
-
-		glm::vec3 light = glm::vec3(0, 0, 0);
+		glm::vec3 light = glm::vec3(-4, -1000, 0);
 		p_shader.SetVec3("lightPos", light);
-		
+		p_shader.SetUniform1f("dayTime", p_dayTime);
 		p_shader.SetUniform1f("time", p_time);
 		// and finally bind the texture
 

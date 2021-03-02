@@ -91,7 +91,7 @@ namespace ChunkNS
 		void updateChunk();
 		void AddFace(Face& _faceToDraw, glm::vec3 _pos, ID _id );
 		void Draw(float p_time);
-		void DrawDecoration(float p_time);
+		void DrawDecoration(float p_dayTime, float p_time);
 		void DrawWater(float p_time);
 		void CheckDirty();
 		void SetChunksNeighbour( Chunk* p_left, Chunk* p_right, Chunk*  p_top, Chunk* p_bot, Chunk*  p_front, Chunk* p_back);

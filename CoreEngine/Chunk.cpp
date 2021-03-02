@@ -177,9 +177,9 @@ void Chunk::Draw(float p_time)
 	Mesh.Draw(*ResourceManager::Instance().GetShader("Nano"), p_time);
 }
 
-void ChunkNS::Chunk::DrawDecoration(float p_time)
+void ChunkNS::Chunk::DrawDecoration(float p_dayTime, float p_time)
 {
-	decoMesh.Draw(*ResourceManager::Instance().GetShader("LeavesEffect"), p_time);
+	decoMesh.Draw(*ResourceManager::Instance().GetShader("LeavesEffect"), p_dayTime, p_time);
 }
 
 void ChunkNS::Chunk::DrawWater(float p_time)

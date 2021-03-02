@@ -25,7 +25,7 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 
 	switch (_faceType)
 	{
-	case 0: //Top
+	case 0: //Bttom
 
 		v[0].m_position = glm::vec3(-500.0f, -500.0f , 500.0f) + pos;
 		v[1].m_position = glm::vec3(500.0f, -500.0f  , -500.0f) + pos;
@@ -71,7 +71,7 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		}
 
 		break;
-	case 1: //Bottom
+	case 1: //Top
 
 		v[0].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
 		v[1].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
@@ -82,13 +82,13 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		v[5].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, 0);
-		v[1].m_textureCoord = glm::vec2(500.02, 1);
-		v[2].m_textureCoord = glm::vec2(1, 1);
+		v[0].m_textureCoord = glm::vec2(0, 0);
+		v[1].m_textureCoord = glm::vec2(0.48, 1);
+		v[2].m_textureCoord = glm::vec2(0, 1);
 
-		v[3].m_textureCoord = glm::vec2(1, 0);
-		v[4].m_textureCoord = glm::vec2(500.02, 0);
-		v[5].m_textureCoord = glm::vec2(500.02, 1);
+		v[3].m_textureCoord = glm::vec2(0, 0);
+		v[4].m_textureCoord = glm::vec2(0.48, 0);
+		v[5].m_textureCoord = glm::vec2(0.48, 1);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, -0.1, 0);
@@ -127,13 +127,13 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		v[5].m_position = glm::vec3(-500.0f, 500.0f, 500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, 1);
-		v[1].m_textureCoord = glm::vec2(500.05, 0);
-		v[2].m_textureCoord = glm::vec2(1, 0);
+		v[0].m_textureCoord = glm::vec2(0, 0);
+		v[1].m_textureCoord = glm::vec2(0.48, 1);
+		v[2].m_textureCoord = glm::vec2(0, 1);
 
-		v[3].m_textureCoord = glm::vec2(1, 1);
-		v[4].m_textureCoord = glm::vec2(500.05, 1);
-		v[5].m_textureCoord = glm::vec2(500.05, 0);
+		v[3].m_textureCoord = glm::vec2(0, 0);
+		v[4].m_textureCoord = glm::vec2(0.48, 0);
+		v[5].m_textureCoord = glm::vec2(0.48, 1);
 
 		//Normals
 		v[0].m_normal = glm::vec3(0, 0, -0.90);
@@ -172,13 +172,13 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		v[5].m_position = glm::vec3(500.0f, 500.0f, -500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, 1);
-		v[1].m_textureCoord = glm::vec2(500.05, 0);
-		v[2].m_textureCoord = glm::vec2(1, 0);
+		v[0].m_textureCoord = glm::vec2(0, 0);
+		v[1].m_textureCoord = glm::vec2(0.48, 1);
+		v[2].m_textureCoord = glm::vec2(0, 1);
 
-		v[3].m_textureCoord = glm::vec2(1, 1);
-		v[4].m_textureCoord = glm::vec2(500.05, 1);
-		v[5].m_textureCoord = glm::vec2(500.05, 0);
+		v[3].m_textureCoord = glm::vec2(0, 0);
+		v[4].m_textureCoord = glm::vec2(0.48, 0);
+		v[5].m_textureCoord = glm::vec2(0.48, 1);
 
 
 		//Normals
@@ -218,13 +218,13 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		v[5].m_position = glm::vec3(500.0f, 500.0f, 500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, 1);
-		v[1].m_textureCoord = glm::vec2(500.05, 0);
-		v[2].m_textureCoord = glm::vec2(1, 0);
+		v[0].m_textureCoord = glm::vec2(0, 0);
+		v[1].m_textureCoord = glm::vec2(0.48, 1);
+		v[2].m_textureCoord = glm::vec2(0, 1);
 
-		v[3].m_textureCoord = glm::vec2(1, 1);
-		v[4].m_textureCoord = glm::vec2(500.05, 1);
-		v[5].m_textureCoord = glm::vec2(500.05, 0);
+		v[3].m_textureCoord = glm::vec2(0, 0);
+		v[4].m_textureCoord = glm::vec2(0.48, 0);
+		v[5].m_textureCoord = glm::vec2(0.48, 1);
 
 
 		//Normals
@@ -264,14 +264,13 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		v[5].m_position = glm::vec3(-500.0f, 500.0f, -500.0f) + pos;
 
 		//TextCoords
-		v[0].m_textureCoord = glm::vec2(1, 1);
-		v[1].m_textureCoord = glm::vec2(500.05, 0);
-		v[2].m_textureCoord = glm::vec2(1, 0);
+		v[0].m_textureCoord = glm::vec2(0, 0);
+		v[1].m_textureCoord = glm::vec2(0.48, 1);
+		v[2].m_textureCoord = glm::vec2(0, 1);
 
-		v[3].m_textureCoord = glm::vec2(1, 1);
-		v[4].m_textureCoord = glm::vec2(500.05, 1);
-		v[5].m_textureCoord = glm::vec2(500.05, 0);
-
+		v[3].m_textureCoord = glm::vec2(0, 0);
+		v[4].m_textureCoord = glm::vec2(0.48, 0);
+		v[5].m_textureCoord = glm::vec2(0.48, 1);
 
 		//Normals
 		v[0].m_normal = glm::vec3(-0.92, 0, 0);
@@ -385,8 +384,9 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 
 		glm::vec3 light = glm::vec3(0, 0, 0);
 		p_shader.SetVec3("lightPos", light);
-
-		p_shader.SetUniform1f("time", p_time);
+	
+		p_shader.SetUniform1f("utime", p_time);
+		
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);

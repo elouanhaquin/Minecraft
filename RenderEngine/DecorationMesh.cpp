@@ -21,7 +21,7 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 {
 	++faceCount;
 	Vertex v[6];
-
+	
 	_tex -= 7;
 
 

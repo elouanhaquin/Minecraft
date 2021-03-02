@@ -152,8 +152,10 @@ void WorldNS::World::checkNeighboursChunk()
 	}
 }
 
-void World::Render()
+void World::Render(const glm::vec3 p_playerPos)
 {
+	m_skyBox.removeGPUData();
+
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	if (m_isRunning)
 	{
@@ -168,18 +170,17 @@ void World::Render()
 		chunks[i]->RenderFace();
 	}
 	for (int i = 0; i < 6; i++)
-		m_skyBox.AddFace(i, glm::ivec3(0, 0, 0), i);
-
+		m_skyBox.AddFace(i, glm::ivec3(p_playerPos.x -250, p_playerPos.y - 250, p_playerPos.z -250) , i);
 	m_skyBox.AddGPUData();
 }
 
 void World::Draw(Shader& p_shader)
 {
-	m_skyBox.Draw(p_shader, TimeNS::Time::time);
+	m_skyBox.Draw(p_shader, TimeNS::Time::dayTime);
 
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->Draw(TimeNS::Time::time);
+		chunks[i]->Draw(TimeNS::Time::dayTime);
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{

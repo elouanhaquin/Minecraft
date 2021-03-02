@@ -26,7 +26,7 @@ namespace WorldNS
 		void destroyBlockAt(const glm::vec3& p_pos, const glm::vec3& p_dir);
 		void checkNeighboursChunk();
 		
-		void Render();
+		void Render(const glm::vec3 p_playerPos);
 		void Draw(Shader& p_shader);
 
 		inline int getWidth() { return worldWidth; }

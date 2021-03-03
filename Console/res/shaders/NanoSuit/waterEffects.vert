@@ -19,9 +19,9 @@ void main()
     TexCoords = aTexCoords;
 
     float waveForce = 0.8;
-    float x = (sin(waveForce * aPos.y + time ) * cos(waveForce * aPos.z + time) * 0.1) + aPos.x;
-    float y = (sin(waveForce * aPos.x + time ) * cos(waveForce * aPos.y + time) * 0.1) + 9;
-    float z = (sin(waveForce * aPos.x + time) * cos(waveForce * aPos.y + time) * 0.1) + aPos.z;
+    float x = (sin(waveForce * aPos.y + time ) * cos(waveForce * aPos.z + time) * 0.2) + aPos.x;
+    float y = (sin(waveForce * aPos.x + time ) * cos(waveForce * aPos.y + time) * 0.2) + 9;
+    float z = (sin(waveForce * aPos.x + time) * cos(waveForce * aPos.y + time) * 0.2) + aPos.z;
 
     gl_Position = projection * view * model * vec4(vec3(x, y , z), 1.0);
     FragPos = vec3(model * vec4(aPos, 1.0));

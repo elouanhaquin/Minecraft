@@ -351,6 +351,8 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 
 	if (m_indices.size() <= 0) return;
 
+	m_isSunGoingUp = p_time - m_buffTime > 0 ? true : false;
+
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;
@@ -386,7 +388,15 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 		p_shader.SetVec3("lightPos", light);
 	
 		p_shader.SetUniform1f("utime", p_time);
-		
+
+
+		m_buffTimeGoUp += p_time > 0 ? p_time : -m_buffTimeGoUp;
+		p_shader.SetUniform1f("uTime2", m_buffTimeGoUp);
+	
+		if(m_isSunGoingUp)
+			p_shader.SetUniform1f("uGoingUp", 1.0f);
+		else
+			p_shader.SetUniform1f("uGoingUp", -1.0f);
 		// and finally bind the texture
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
@@ -401,4 +411,5 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(0);
 	glUseProgram(0);
+	m_buffTime = p_time;
 }

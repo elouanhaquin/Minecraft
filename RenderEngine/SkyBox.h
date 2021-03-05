@@ -25,6 +25,9 @@ namespace RenderEngineNS
 	private:
 		int			faceCount = 0;
 		unsigned int indicesCount = 0;
+		bool m_isSunGoingUp = false;
+		float m_buffTime = 0;
+		float m_buffTimeGoUp = 0;
 
 		std::vector<Vertex>			m_vertices;
 		std::vector<GLuint>			m_indices;

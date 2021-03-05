@@ -8,11 +8,15 @@ out vec2 TexCoords;
 out vec3 normal;
 out vec3 FragPos;
 out float time;
+out float time2;
+out float isGoingUp;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 uniform float utime;
+uniform float uGoingUp;
+uniform float uTime2;
 
 void main()
 {
@@ -24,8 +28,9 @@ void main()
     float y = aPos.y;
     float z = aPos.z;
 
-    time = (utime);
-
+    time = utime;
+    time2 = uTime2;
+    isGoingUp = uGoingUp;
     gl_Position = projection * view * model * vec4(vec3(x, y , z), 1.0);
     FragPos = vec3(model * vec4(aPos, 1.0));
     normal = aNormal;

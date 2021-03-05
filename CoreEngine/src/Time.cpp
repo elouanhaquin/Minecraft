@@ -19,7 +19,7 @@ void Time::UpdateTime()
 	const double previousTime = time;
 	Time::time = glfwGetTime();
 	Time::deltaTime = time - previousTime;
-	float ti = (glfwGetTime())*0.1f + 360.0f;
+	float ti = (glfwGetTime())*0.5f + 360.0f; // 360 is to start in the day, 0.1f is the time speed
 	Time::dayTime = std::sin(ti) + 0.8f;
 }
 

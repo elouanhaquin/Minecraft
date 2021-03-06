@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <World.h>
 #include <assert.h>
+#include <map>
 
 using namespace WorldNS;
 
@@ -9,6 +10,7 @@ World::World(/*const glm::vec3& _playerpos,*/ int width, int height) : worldHeig
 	assert(width > 0 && height > 0);
 
 	worldDimension = worldWidth * worldWidth * worldHeight;
+
 
 	for (int i = 0; i < worldDimension; ++i)
 	{
@@ -19,6 +21,8 @@ World::World(/*const glm::vec3& _playerpos,*/ int width, int height) : worldHeig
 		chunks.emplace_back(
 			new Chunk(glm::ivec3( _pos.at(0), 0, _pos.at(2)), 0));
 	}
+
+
 }
 
 World::~World()
@@ -152,9 +156,10 @@ void WorldNS::World::checkNeighboursChunk()
 	}
 }
 
-void World::Render(const glm::vec3 p_playerPos)
+void World::Render(const glm::vec3 p_playerPos, glm::vec3& p_view)
 {
 	m_skyBox.removeGPUData();
+
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	if (m_isRunning)
@@ -167,31 +172,50 @@ void World::Render(const glm::vec3 p_playerPos)
 	for (int i = 0; i < chunks.size(); ++i)
 	{
 		checkNeighboursChunk();
-		chunks[i]->RenderFace();
+		glm::vec3 distance = (glm::vec3)chunks[i]->GetPosition() - p_playerPos;
+		if (glm::dot(distance, glm::normalize(p_view)) + 100 > 0) chunks[i]->RenderFace();
+		
 	}
 	for (int i = 0; i < 6; i++)
 		m_skyBox.AddFace(i, glm::ivec3(p_playerPos.x -250, p_playerPos.y - 250, p_playerPos.z -250) , i);
+
+
+	m_postProcess.createDepthTexture();
+	m_postProcess.attachDepthTexture();
+
+
 	m_skyBox.AddGPUData();
 }
 
-void World::Draw(Shader& p_shader)
+void World::Draw(Shader& p_shader, Shader& p_shader2, glm::vec3& p_view, glm::vec3& p_playerPos)
 {
+
+	std::map<int, bool> renderIndices;
+
 	m_skyBox.Draw(p_shader, TimeNS::Time::dayTime);
 
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->Draw(TimeNS::Time::dayTime);
+		glm::vec3 distance = (glm::vec3)chunks[i]->GetPosition() - p_playerPos;
+		if (glm::dot(distance, glm::normalize(p_view)) + 100  > 0) {
+			renderIndices.emplace(i, true);
+			chunks[i]->Draw(TimeNS::Time::dayTime);
+		}
+		else {
+			renderIndices.emplace(i, false);
+		}
+			
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->DrawWater(TimeNS::Time::time);
+		if(renderIndices[i]) chunks[i]->DrawWater(TimeNS::Time::time);
 	}
 	for (int i = 0; i < chunks.size(); ++i)
 	{
-		chunks[i]->DrawDecoration(TimeNS::Time::dayTime, TimeNS::Time::time);
+		if (renderIndices[i]) chunks[i]->DrawDecoration(TimeNS::Time::dayTime, TimeNS::Time::time);
 	}
 
-
+	m_postProcess.draw(p_shader2, TimeNS::Time::time);
 
 }
 

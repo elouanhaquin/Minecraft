@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DecorationMesh.h"
+#include "include\Camera.h"
 
 RenderEngineNS::DecorationMesh::DecorationMesh()
 {
@@ -539,35 +540,13 @@ void RenderEngineNS::DecorationMesh::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::DecorationMesh::createDepthTexture()
-{
-	
-
-	glGenTextures(1, &m_depthMap);
-	glBindTexture(GL_TEXTURE_2D, m_depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-}
 
 void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_dayTime, float p_time)
 {
 
-	//glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	//glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-	//glClear(GL_DEPTH_BUFFER_BIT);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	if (m_indices.size() <= 0) return;
+	
+
 
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
@@ -599,6 +578,7 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_dayTime, fl
 
 		// now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(p_shader.GetRendererID(), (name + number).c_str()), i);
+
 		glm::vec3 light = glm::vec3(-4, -1000, 0);
 		p_shader.SetVec3("lightPos", light);
 		p_shader.SetUniform1f("dayTime", p_dayTime);
@@ -608,16 +588,18 @@ void RenderEngineNS::DecorationMesh::Draw(Shader & p_shader, float p_dayTime, fl
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].m_id);
 	}
 
-	//glBindTexture(GL_TEXTURE_2D, m_depthMap);
+
 	// draw mesh
 	glBindVertexArray(m_vao);
 
 	//glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, m_indices[0], m_indices.size());
-	
+
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(0);
 	glUseProgram(0);
-	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
 }

@@ -285,25 +285,17 @@ void ChunkNS::Chunk::CheckDirty()
 
 					switch (j) {
 					case 0:
-						blocks[i].SetFaceToRender(Face::ALL);
-
-					case 1:
 						blocks[i].GetFace() |= Face::TOP;
+					case 1:
 						blocks[i].GetFace() |= Face::BOTTOM;
-						break;
 					case 2:
-						blocks[i].GetFace() |= Face::LEFT;
 						blocks[i].GetFace() |= Face::RIGHT;
 					case 3:
 						blocks[i].GetFace() |= Face::LEFT;
-						blocks[i].GetFace() |= Face::RIGHT;
 					case 4:
-						blocks[i].GetFace() |= Face::BACK;
 						blocks[i].GetFace() |= Face::FRONT;
 					case 5:
-						blocks[i].GetFace() |= Face::FRONT;
 						blocks[i].GetFace() |= Face::BACK;
-
 					}
 					blocks[i].SetDirty(true);
 

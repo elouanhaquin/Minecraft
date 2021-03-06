@@ -24,8 +24,6 @@ namespace RenderEngineNS
 		void AddGPUData();
 		void removeGPUData();
 
-		void createDepthTexture();
-
 		void Draw(Shader& p_shader,float p_dayTime, float p_time);
 		
 	private:
@@ -34,6 +32,7 @@ namespace RenderEngineNS
 		unsigned int indicesCount = 0;
 
 		std::vector<Vertex>			m_vertices;
+		std::vector<Vertex>			m_RenderVertices;
 		std::vector<GLuint>			m_indices;
 		std::vector<Texture>		m_textures;
 
@@ -41,6 +40,6 @@ namespace RenderEngineNS
 
 	public:
 
-		const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+		const unsigned int SHADOW_WIDTH = 1280, SHADOW_HEIGHT = 720;
 	};
 }

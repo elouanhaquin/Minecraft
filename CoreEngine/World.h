@@ -2,6 +2,7 @@
 
 #include "CoreEngineAPI.h"
 #include "SkyBox.h"
+#include "PostProcessing.h"
 #include <memory>
 #include <Chunk.h>
 #include <atomic>
@@ -26,8 +27,8 @@ namespace WorldNS
 		void destroyBlockAt(const glm::vec3& p_pos, const glm::vec3& p_dir);
 		void checkNeighboursChunk();
 		
-		void Render(const glm::vec3 p_playerPos);
-		void Draw(Shader& p_shader);
+		void Render(const glm::vec3 p_playerPos, glm::vec3& p_view);
+		void Draw(Shader& p_shader, Shader& p_shader2, glm::vec3& p_view, glm::vec3& p_playerPos);
 
 		inline int getWidth() { return worldWidth; }
 		Chunk* getChunkAtPos(const glm::vec3& p_pos);
@@ -44,6 +45,7 @@ namespace WorldNS
 		int worldHeight;
 
 		SkyBox m_skyBox;
+		PostProcessing m_postProcess;
 
 		std::vector<Chunk*> chunks;
 

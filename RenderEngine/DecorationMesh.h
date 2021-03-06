@@ -24,6 +24,8 @@ namespace RenderEngineNS
 		void AddGPUData();
 		void removeGPUData();
 
+		void createDepthTexture();
+
 		void Draw(Shader& p_shader,float p_dayTime, float p_time);
 		
 	private:
@@ -35,6 +37,10 @@ namespace RenderEngineNS
 		std::vector<GLuint>			m_indices;
 		std::vector<Texture>		m_textures;
 
-		unsigned int				m_vao, m_vbo, m_ebo;
+		unsigned int				m_vao, m_vbo, m_ebo, m_fbo, m_depthMap; // here fbo is my depth map
+
+	public:
+
+		const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	};
 }

@@ -23,10 +23,18 @@ void main()
 
     TexCoords = aTexCoords;
 
-    float waveForce = 0.8;
+
     float x =  aPos.x;
     float y = aPos.y;
     float z = aPos.z;
+
+    if(x < 100 && x >0 && y < 100 && y > 0){
+       x = x*cos(uTime2) - y*sin(uTime2);
+       y = x*sin(uTime2) + y*cos(uTime2) + 100;
+      // z = (sin(waveHeight * aPos.x + time*5 ) * cos(waveHeight * aPos.y + time*5) * 0.05) + aPos.z;
+    }
+
+
 
     time = utime;
     time2 = uTime2;

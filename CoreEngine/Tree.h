@@ -12,7 +12,7 @@ namespace ChunkNS
 	public:
 		Tree() { ; }
 		Tree(glm::ivec3 p_pos);
-		~Tree() { ; }
+		~Tree() {; }
 	
 		//return the same tree at other pos
 		Tree* moveTo(glm::vec3 p_pos);

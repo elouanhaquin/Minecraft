@@ -15,7 +15,7 @@ Collider::Collider(Primitive* aPrimivite)
 
 CoreEngineNS::Collider::~Collider()
 {
-	if(m_primitive != nullptr)
+	if(this != nullptr && m_primitive != nullptr)
 		delete m_primitive;
 
 }

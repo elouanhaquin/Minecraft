@@ -187,12 +187,12 @@ void World::Render(const glm::vec3 p_playerPos, glm::vec3& p_view)
 	m_skyBox.AddGPUData();
 }
 
-void World::Draw(Shader& p_shader, Shader& p_shader2, glm::vec3& p_view, glm::vec3& p_playerPos)
+void World::Draw( glm::vec3& p_view, glm::vec3& p_playerPos)
 {
 
 	std::map<int, bool> renderIndices;
 
-	m_skyBox.Draw(p_shader, TimeNS::Time::dayTime);
+	m_skyBox.Draw(*ResourceManager::Instance().GetShader("SkyBox"), TimeNS::Time::dayTime);
 
 	for (int i = 0; i < chunks.size(); ++i)
 	{
@@ -215,7 +215,8 @@ void World::Draw(Shader& p_shader, Shader& p_shader2, glm::vec3& p_view, glm::ve
 		if (renderIndices[i]) chunks[i]->DrawDecoration(TimeNS::Time::dayTime, TimeNS::Time::time);
 	}
 
-	m_postProcess.draw(p_shader2, TimeNS::Time::time);
+	
+	m_postProcess.draw(*ResourceManager::Instance().GetShader("simpleDepthShader") , TimeNS::Time::time);
 
 }
 

@@ -26,6 +26,7 @@ void ChunkNS::Chunk::fillChunk()
 	m_treeCount = 0;
 	m_waterCount = 0;
 	m_grassCount = 0;
+
 	
 	for (int i = 0; i < CHUNK_ELEMENTS_COUNT; ++i)
 	{
@@ -74,7 +75,7 @@ void ChunkNS::Chunk::fillChunk()
 		}
 		else if (ind < 0.95  && ind > 0.25 && blocksInd > 10) {
 			glm::ivec3 newPos = glm::ivec3(_pos.at(0) + pos.x, blocksInd + 1, _pos.at(1) + pos.z);
-			grassBlocks[m_grassCount] = Block(ID::Weeds, true, true);
+			grassBlocks[m_grassCount] = new Block(ID::Weeds, true, true);
 			grassBlocksPosition[m_grassCount] = newPos;
 			m_grassCount++;
 		}
@@ -92,15 +93,19 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 	
 	if (Trees != nullptr)
 		for (int i = 0; Trees[i] != nullptr && i < m_treeCount; i++)
-			 Trees[i] = nullptr;
+			 Trees[i] == nullptr;
 
+	for (int i = 0; grassBlocks[i] != nullptr && i < m_grassCount; i++)
+		delete grassBlocks[i];
 	
-
+	
+	
 	fillChunk();
 	updateChunk();
 
-	renderWater();
-	renderTrees();
+
+	//renderWater();
+	//renderTrees();
 
 
 }
@@ -108,6 +113,8 @@ void ChunkNS::Chunk::shiftChunk(glm::ivec3 p_pos)
 void ChunkNS::Chunk::renderTrees()
 {
 	//Only render top and bottom for leaves
+
+
 	for (unsigned int i = 0; Trees[i] != nullptr && i < m_treeCount; i++){
 		for (unsigned int j = 0; Trees[i]->getBlock(j) != nullptr && j < 9; j++) {
 			if (Trees[i]->getBlock(j)->GetID() != ID::Wood) {
@@ -131,15 +138,16 @@ void ChunkNS::Chunk::renderTrees()
 	}
 	 
 	for (unsigned int i = 0; i < m_grassCount; i++) {
-		decoMesh.AddFace(6, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
-		decoMesh.AddFace(7, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
-		decoMesh.AddFace(8, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
-		decoMesh.AddFace(9, grassBlocksPosition[i], (uint16_t)grassBlocks[i].GetID());
+		decoMesh.AddFace(6, grassBlocksPosition[i], (uint16_t)grassBlocks[i]->GetID());
+		decoMesh.AddFace(7, grassBlocksPosition[i], (uint16_t)grassBlocks[i]->GetID());
+		decoMesh.AddFace(8, grassBlocksPosition[i], (uint16_t)grassBlocks[i]->GetID());
+		decoMesh.AddFace(9, grassBlocksPosition[i], (uint16_t)grassBlocks[i]->GetID());
 	}
 }
 
 void ChunkNS::Chunk::renderWater()
 {
+
 	for (unsigned int i = 0;  i < m_waterCount ; i++)
 		waterMesh.AddFace(0, waterBlocksPosition[i], (uint16_t)waterBlocks[i].GetID());
 	
@@ -238,6 +246,7 @@ void ChunkNS::Chunk::updateChunk()
 	decoMesh.removeGPUData();
 	Mesh.removeGPUData();
 	waterMesh.removeGPUData();
+
 
 	CheckDirty();
 

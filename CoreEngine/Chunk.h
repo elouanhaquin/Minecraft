@@ -42,7 +42,7 @@ namespace ChunkNS
 		Block		waterBlocks[DECO_BLOCKS_MAX];
 		glm::ivec3	waterBlocksPosition[DECO_BLOCKS_MAX];
 
-		Block		grassBlocks[DECO_BLOCKS_MAX];
+		Block*		grassBlocks[DECO_BLOCKS_MAX];
 		glm::ivec3	grassBlocksPosition[DECO_BLOCKS_MAX];
 
 		Tree* Trees[DECO_BLOCKS_MAX];

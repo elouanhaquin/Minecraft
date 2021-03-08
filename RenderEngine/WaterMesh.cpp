@@ -25,14 +25,14 @@ void RenderEngineNS::WaterMesh::AddFace(int _faceType, glm::vec3 pos, uint16_t _
 	++faceCount;
 	Vertex v[6];
 
-	_tex -= 6;
+	_tex -= 8;
 
 	float reductionForWater = 0.0f;
-	if (_tex == 3)
+	if (_tex == 1)
 		reductionForWater = 0.05f;
 
-	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
-	float v1t = (float)((1 + _tex) * 0.33f) - 0.05f;
+	float v0t = (float)((0 + _tex) * 0.25f) + 0.05f;
+	float v1t = (float)((1 + _tex) * 0.25f) - 0.05f;
 
 	switch (_faceType)
 	{

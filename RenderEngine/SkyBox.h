@@ -15,12 +15,12 @@ namespace RenderEngineNS
 			SkyBox();
 			~SkyBox();
 
-			void AddFace(int _faceType, glm::vec3 pos, uint16_t _tex);
+			void AddFace(int _faceType, glm::vec3 pos);
 
 			void AddGPUData();
 			void removeGPUData();
 
-			void Draw(Shader& p_shader, float p_time);
+			void Draw(Shader& p_shader, Shader & p_sunShader, glm::vec3 & p_pos, float p_time);
 
 	private:
 		int			faceCount = 0;
@@ -28,6 +28,7 @@ namespace RenderEngineNS
 		bool m_isSunGoingUp = false;
 		float m_buffTime = 0;
 		float m_buffTimeGoUp = 0;
+		float rotation = 0;
 
 		std::vector<Vertex>			m_vertices;
 		std::vector<GLuint>			m_indices;

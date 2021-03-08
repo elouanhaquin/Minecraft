@@ -176,23 +176,19 @@ void World::Render(const glm::vec3 p_playerPos, glm::vec3& p_view)
 		if (glm::dot(distance, glm::normalize(p_view)) + 100 > 0) chunks[i]->RenderFace();
 		
 	}
-	for (int i = 0; i < 6; i++)
-		m_skyBox.AddFace(i, glm::ivec3(p_playerPos.x -250, p_playerPos.y - 250, p_playerPos.z -250) , i);
-
-
-	m_postProcess.createDepthTexture();
-	m_postProcess.attachDepthTexture();
+	for (int i = 0; i < 8; i++)
+		m_skyBox.AddFace(i, glm::vec3(p_playerPos.x -250, p_playerPos.y - 250, p_playerPos.z -250) );
 
 
 	m_skyBox.AddGPUData();
 }
 
-void World::Draw( glm::vec3& p_view, glm::vec3& p_playerPos)
+void World::Draw(glm::vec3& p_view, glm::vec3& p_playerPos)
 {
 
 	std::map<int, bool> renderIndices;
 
-	m_skyBox.Draw(*ResourceManager::Instance().GetShader("SkyBox"), TimeNS::Time::dayTime);
+	m_skyBox.Draw(*ResourceManager::Instance().GetShader("SkyBox"), *ResourceManager::Instance().GetShader("Sun"), p_playerPos,  TimeNS::Time::dayTime);
 
 	for (int i = 0; i < chunks.size(); ++i)
 	{

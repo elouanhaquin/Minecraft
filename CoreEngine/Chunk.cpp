@@ -148,8 +148,10 @@ void ChunkNS::Chunk::renderTrees()
 void ChunkNS::Chunk::renderWater()
 {
 
-	for (unsigned int i = 0;  i < m_waterCount ; i++)
-		waterMesh.AddFace(0, waterBlocksPosition[i], (uint16_t)waterBlocks[i].GetID());
+	for (unsigned int i = 0; i < m_waterCount; i++)
+		if (waterBlocks[i].GetID() != ID::Air) 
+			waterMesh.AddFace(0, waterBlocksPosition[i], (uint16_t)waterBlocks[i].GetID());
+
 	
 }
 

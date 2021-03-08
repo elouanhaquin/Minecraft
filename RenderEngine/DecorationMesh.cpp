@@ -22,12 +22,11 @@ void RenderEngineNS::DecorationMesh::AddFace(int _faceType, glm::vec3 pos, uint1
 {
 	++faceCount;
 	Vertex v[6];
-	
-	_tex -= 7;
 
+	_tex -= 6;
 
-	float v0t = (float)((0 + _tex) * 0.33f) + 0.05f;
-	float v1t = (float)((1 + _tex) * 0.33f) - 0.05f;
+	float v0t = (float)((0 + _tex) * 0.24f) + 0.05f ;
+	float v1t = (float)((1 + _tex) * 0.24f) - 0.05f;
 
 	switch (_faceType)
 	{

@@ -13,6 +13,7 @@ namespace TimeNS {
 		static double deltaTime;
 		static double fixedDeltaTime;
 		static double dayTime;
+		static double deltaTimeDay;
 
 		static void UpdateTime();
 

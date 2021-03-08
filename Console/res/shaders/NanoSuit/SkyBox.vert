@@ -7,6 +7,8 @@ layout (location = 2) in vec2 aTexCoords;
 out vec2 TexCoords;
 out vec3 normal;
 out vec3 FragPos;
+out vec3 playerPos;
+
 out float time;
 out float time2;
 out float isGoingUp;
@@ -14,6 +16,7 @@ out float isGoingUp;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform vec3 uPlayerPos;
 uniform float utime;
 uniform float uGoingUp;
 uniform float uTime2;
@@ -28,13 +31,13 @@ void main()
     float y = aPos.y;
     float z = aPos.z;
 
-    if(x < 100 && x >0 && y < 100 && y > 0){
+  /*  if(x < 100 && x >0 && y < 100 && y > 0){
        x = x*cos(uTime2) - y*sin(uTime2);
        y = x*sin(uTime2) + y*cos(uTime2) + 100;
       // z = (sin(waveHeight * aPos.x + time*5 ) * cos(waveHeight * aPos.y + time*5) * 0.05) + aPos.z;
-    }
+    }*/
 
-
+    playerPos = uPlayerPos;
 
     time = utime;
     time2 = uTime2;

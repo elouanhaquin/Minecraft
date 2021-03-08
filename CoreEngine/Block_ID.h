@@ -18,8 +18,9 @@ namespace BlockNS
 		Weeds = 7,
 		Leaves = 8,
 		Water = 9,
-		Coal = 10,
-	 
+		Sun = 10,
+		Coal = 11,
+		
 		
 	
 

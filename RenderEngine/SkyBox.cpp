@@ -6,7 +6,7 @@ RenderEngineNS::SkyBox::SkyBox()
 	indicesCount = 0;
 	faceCount = 0;
 
-	m_textures.push_back(Texture(4, "Sky"));
+	m_textures.push_back(Texture(2, "DecorationAtlas"));
 }
 
 RenderEngineNS::SkyBox::~SkyBox()
@@ -17,7 +17,7 @@ RenderEngineNS::SkyBox::~SkyBox()
 	faceCount = 0;
 }
 
-void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex)
+void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos)
 {
 	++faceCount;
 	Vertex v[6];
@@ -298,6 +298,94 @@ void RenderEngineNS::SkyBox::AddFace(int _faceType, glm::vec3 pos, uint16_t _tex
 		}
 
 		break;
+	case 6: //Sun
+
+		v[0].m_position = glm::vec3(-25.0f, 200, 25.0f) + pos;
+		v[1].m_position = glm::vec3(25.0f, 200, -25.0f) + pos;
+		v[2].m_position = glm::vec3(-25.0f, 200, -25.0f) + pos;
+
+		v[3].m_position = glm::vec3(-25.0f, 200, 25.0f) + pos;
+		v[4].m_position = glm::vec3(25.0f, 200, 25.0f) + pos;
+		v[5].m_position = glm::vec3(25.0f, 200, -25.0f) + pos;
+
+		//TextCoords
+		v[0].m_textureCoord = glm::vec2(0.48, -0.75f);
+		v[1].m_textureCoord = glm::vec2(0, -1);
+		v[2].m_textureCoord = glm::vec2(0.48, -1);
+
+		v[3].m_textureCoord = glm::vec2(0.48, -0.75f);
+		v[4].m_textureCoord = glm::vec2(0, -0.75f);
+		v[5].m_textureCoord = glm::vec2(0, -1);
+
+		//Normals
+		v[0].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[1].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[2].m_normal = glm::vec3(0.99, 0.99, 0.99);
+
+		v[3].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[4].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[5].m_normal = glm::vec3(0.99, 0.99, 0.99);
+
+
+		m_indices.insert(m_indices.end(),
+			{
+				indicesCount,
+				indicesCount + 1,
+				indicesCount + 2,
+				indicesCount + 3,
+				indicesCount + 4,
+				indicesCount + 5
+			});
+		indicesCount += 6;
+
+		for (int i = 0; i < 6; ++i)
+			m_vertices.push_back(v[i]);
+		
+		break;
+	case 7: //Sun
+
+		v[0].m_position = glm::vec3(-25.0f, 200, -25.0f) + pos;
+		v[1].m_position = glm::vec3(25.0f, 200, 25.0f) + pos;
+		v[2].m_position = glm::vec3(-25.0f, 200, 25.0f) + pos;
+
+		v[3].m_position = glm::vec3(-25.0f, 200, -25.0f) + pos;
+		v[4].m_position = glm::vec3(25.0f, 200, -25.0f) + pos;
+		v[5].m_position = glm::vec3(25.0f, 200, 25.0f) + pos;
+
+		//TextCoords
+		v[0].m_textureCoord = glm::vec2(0.48, -0.75f);
+		v[1].m_textureCoord = glm::vec2(0, -1);
+		v[2].m_textureCoord = glm::vec2(0.48, -1);
+
+		v[3].m_textureCoord = glm::vec2(0.48, -0.75f);
+		v[4].m_textureCoord = glm::vec2(0, -0.75f);
+		v[5].m_textureCoord = glm::vec2(0, -1);
+
+		//Normals
+		v[0].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[1].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[2].m_normal = glm::vec3(0.99, 0.99, 0.99);
+
+		v[3].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[4].m_normal = glm::vec3(0.99, 0.99, 0.99);
+		v[5].m_normal = glm::vec3(0.99, 0.99, 0.99);
+
+
+		m_indices.insert(m_indices.end(),
+			{
+				indicesCount,
+				indicesCount + 1,
+				indicesCount + 2,
+				indicesCount + 3,
+				indicesCount + 4,
+				indicesCount + 5
+			});
+		indicesCount += 6;
+
+		for (int i = 0; i < 6; ++i)
+			m_vertices.push_back(v[i]);
+
+		break;
 	}
 }
 
@@ -346,7 +434,7 @@ void RenderEngineNS::SkyBox::removeGPUData()
 	glUnmapBuffer(m_ebo);
 }
 
-void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
+void RenderEngineNS::SkyBox::Draw(Shader & p_shader, Shader & p_sunShader ,glm::vec3 & p_pos, float p_time)
 {
 
 	if (m_indices.size() <= 0) return;
@@ -358,19 +446,22 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
 
+	
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
 	glUseProgram(p_shader.GetRendererID());
-
+	std::string number = "";
+	 std::string name = "";
 
 	for (unsigned int i = 0; i < m_textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i - 1); // active proper texture unit before binding
 
 											  // retrieve texture number (the N in diffuse_textureN)
-		std::string number;
-		const std::string name = m_textures[i].m_type;
+	
+		name = m_textures[i].m_type;
 
 		if (name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
@@ -386,9 +477,18 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 
 		glm::vec3 light = glm::vec3(0, 0, 0);
 		p_shader.SetVec3("lightPos", light);
-	
+		p_shader.SetVec3("uPlayerPos", p_pos);
 		p_shader.SetUniform1f("utime", p_time);
 
+
+		glm::vec3 vec;
+		//glm::mat4x4 matriceRotation = glm::lookAt(vec, p_pos, glm::vec3(0, 1, 0));
+	
+
+
+		//p_sunShader.SetUniformMat4f("uMatriceRotation", matriceRotation);
+		p_sunShader.SetVec3("uPlayerPos", p_pos);
+		p_sunShader.SetUniform1f("utime", p_time);
 
 		m_buffTimeGoUp += p_time > 0 ? p_time : -m_buffTimeGoUp;
 		p_shader.SetUniform1f("uTime2", m_buffTimeGoUp);
@@ -405,8 +505,17 @@ void RenderEngineNS::SkyBox::Draw(Shader & p_shader, float p_time)
 	glBindVertexArray(m_vao);
 
 	//glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
-	glDrawArrays(GL_TRIANGLES, m_indices[0], m_indices.size());
+	glDrawArrays(GL_TRIANGLES, m_indices[0], 36 );
+	glUseProgram(0);
 
+	glUseProgram(p_sunShader.GetRendererID());
+
+	rotation += 0.001f;
+	p_sunShader.SetVec3("uPlayerPos", p_pos);
+	p_sunShader.SetUniform1f("utime", rotation);
+
+	
+	glDrawArrays(GL_TRIANGLES, 36, 12);
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(0);
